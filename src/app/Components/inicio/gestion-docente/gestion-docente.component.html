@@ -1,0 +1,146 @@
+<div class="docente-management">
+  <div class="header">
+    <div>
+      <h2 class="title">Gestión de Profesores</h2>
+      <p class="subtitle">Administra la información de los profesores</p>
+    </div>
+  </div>
+  
+  <button class="add-button" (click)="openModal()">Agregar Profesor</button>
+
+  <div class="table-container">
+    <table class="docente-table">
+      <thead>
+        <tr>
+          <th>CC</th>
+          <th>Nombre</th>
+          <th>Correo</th>
+          <th>Teléfono</th>
+          <th>Especialidad</th>
+          <th>Edad</th>
+          <th>Materia</th>
+          <th>Dirección</th>
+          <th>Grado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let docente of docentes">
+          <td>{{ docente.CC }}</td>
+          <td>{{ docente.NombreCompleto }}</td>
+          <td class="email-cell">{{ docente.Correo }}</td>
+          <td>{{ docente.Telefono }}</td>
+          <td>{{ docente.Especialidad }}</td>
+          <td>{{ docente.edad }}</td>
+          <td>{{ docente.Materia }}</td>
+          <td>{{ docente.Direccion }}</td>
+          <td>{{docente.Grado}}</td>
+          <td>
+            <button class="edit-button" (click)="openModal(docente)">Editar</button>
+              <button class="delete-button" (click)="deleteDocente(docente.CC)">Eliminar</button>
+            </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="modal" *ngIf="showModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>{{ isEditing ? 'Editar' : 'Agregar' }} Profesor</h3>
+        <button class="close-button" (click)="closeModal()">×</button>
+      </div>
+      <p class="modal-subtitle">{{ isEditing ? 'Modifique' : 'Ingrese' }} los datos del profesor aquí.</p>
+      <form (ngSubmit)="saveDocente()">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Número de Identificación</label>
+            <input type="text" [(ngModel)]="currentDocente.CC" name="CC" [disabled]="isEditing">
+          </div>
+          <div class="form-group">
+            <label>Nombre Completo</label>
+            <input type="text" [(ngModel)]="currentDocente.NombreCompleto" name="NombreCompleto">
+          </div>
+          <div class="form-group">
+            <label>Fecha de Nacimiento</label>
+            <input type="date" [(ngModel)]="currentDocente.FechaNacimiento" name="FechaNacimiento">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Correo Electrónico</label>
+            <input type="email" [(ngModel)]="currentDocente.Correo" name="Correo">
+          </div>
+          <div class="form-group">
+            <label>Dirección</label>
+            <input type="text" [(ngModel)]="currentDocente.Direccion" name="Direccion">
+          </div>
+          <div class="form-group">
+            <label>Teléfono</label>
+            <input type="tel" [(ngModel)]="currentDocente.Telefono" name="Telefono">
+          </div>
+        </div>
+        <!-- <div class="form-row">
+          <div class="form-group">
+            <label>Materia</label>
+            <div class="combobox">
+              <div class="selected-items" (click)="toggleDropdown('materias')">
+                {{ getSelectedItemName('MateriaID') || 'Seleccione la materia' }}
+              </div>
+              <div class="dropdown-list" *ngIf="dropdowns.materias">
+                <div class="dropdown-item" *ngFor="let materia of materiasList">
+                  <label>
+                    <input type="radio" 
+                           [checked]="currentDocente.MateriaID === materia.id"
+                           (change)="selectItem('MateriaID', materia.id)">
+                    {{ materia.nombre }}
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Especialidad</label>
+            <div class="combobox">
+              <div class="selected-items" (click)="toggleDropdown('especialidades')">
+                {{ getSelectedItemName('EspecialidadID') || 'Seleccione la especialidad' }}
+              </div>
+              <div class="dropdown-list" *ngIf="dropdowns.especialidades">
+                <div class="dropdown-item" *ngFor="let especialidad of especialidadesList">
+                  <label>
+                    <input type="radio" 
+                           [checked]="currentDocente.EspecialidadID === especialidad.id"
+                           (change)="selectItem('EspecialidadID', especialidad.id)">
+                    {{ especialidad.nombre }}
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Grado Asignado</label>
+            <div class="combobox">
+              <div class="selected-items" (click)="toggleDropdown('grados')">
+                {{ getSelectedItemName('GradoID') || 'Seleccione el grado' }}
+              </div>
+              <div class="dropdown-list" *ngIf="dropdowns.grados">
+                <div class="dropdown-item" *ngFor="let grado of gradosList">
+                  <label>
+                    <input type="radio" 
+                           [checked]="currentDocente.GradoID === grado.id"
+                           (change)="selectItem('GradoID', grado.id)">
+                    {{ grado.nombre }}
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+        <div class="form-actions">
+          <button type="button" class="cancel-button" (click)="closeModal()">Cancelar</button>
+          <button type="submit" class="save-button">{{ isEditing ? 'Actualizar' : 'Guardar' }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

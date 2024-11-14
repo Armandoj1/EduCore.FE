@@ -1,0 +1,75 @@
+<div class="dashboard" [ngClass]="{'dark-mode': isDarkMode}">
+  <aside class="sidebar" [class.expanded]="isSidebarExpanded">
+    <div class="sidebar-header">
+      <button class="sidebar-toggle" (click)="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+      </button>
+      <h2 *ngIf="isSidebarExpanded">EduCore</h2>
+    </div>
+    <nav>
+      <a [routerLink]="['/inicio']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="setPageTitle('Inicio')">
+        <i class="fas fa-home"></i><span>Inicio</span>
+      </a>
+      <div class="dropdown" [class.open]="dropdowns['estudiante']">
+        <a (click)="toggleDropdown('estudiante')">
+          <i class="fas fa-user-graduate"></i>
+          <span>Estudiante</span>
+          <i class="fas fa-chevron-right dropdown-icon" [class.rotate]="dropdowns['estudiante']"></i>
+        </a>
+        <div class="dropdown-content">
+          <a [routerLink]="['/inicio/Estudiante']" routerLinkActive="active" (click)="setPageTitle('Registrar datos de estudiantes')">Registro estudiantes</a>
+          <a [routerLink]="['/inicio/Estudiante/GradosEstudiantes']" routerLinkActive="active" (click)="setPageTitle('Estudiante - Grados')">Grados</a>
+        </div>
+      </div>
+      <div class="dropdown" [class.open]="dropdowns['docente']">
+        <a (click)="toggleDropdown('docente')">
+          <i class="fas fa-chalkboard-teacher"></i>
+          <span>Docente</span>
+          <i class="fas fa-chevron-right dropdown-icon" [class.rotate]="dropdowns['docente']"></i>
+        </a>
+        <div class="dropdown-content">
+          <a [routerLink]="['/inicio/Docente']" routerLinkActive="active" (click)="setPageTitle('Registro de docentes')">Registro de docentes</a>
+          <a [routerLink]="['/inicio/Especialidades']" routerLinkActive="active" (click)="setPageTitle('Vinculación de docentes a una especialidad')">Especialidades</a>
+          <a [routerLink]="['/inicio/Grados']" routerLinkActive="active" (click)="setPageTitle('Vinculación de docentes con materias y grados')">Grados</a>
+        </div>
+      </div>
+      <a [routerLink]="['/inicio/Materias']" routerLinkActive="active" (click)="setPageTitle('Materias')">
+        <i class="fas fa-book"></i><span>Materias</span>
+      </a>
+      <a [routerLink]="['/inicio/Notas']" routerLinkActive="active" (click)="setPageTitle('Notas')">
+        <i class="fas fa-clipboard-list"></i><span>Notas</span>
+      </a>
+    </nav>
+    <div class="dark-mode-toggle">
+      <label class="switch">
+        <input type="checkbox" [checked]="isDarkMode" (change)="toggleDarkMode()">
+        <span class="slider round"></span>
+      </label>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <header>
+      <h1>{{ pageTitle }}</h1>
+      <div class="header-right">
+        <button class="notifications">
+          <i class="fas fa-bell"></i>
+        </button>
+        <div class="user-profile" (click)="toggleProfileMenu()">
+          <i class="fas fa-user-circle"></i>
+          <div class="profile-dropdown" *ngIf="isProfileMenuOpen">
+            <h3>{{ userName }}</h3>
+            <ul>
+              <li (click)="editProfile()"><i class="fas fa-user-edit"></i> Editar perfil</li>
+              <li (click)="changePassword()"><i class="fas fa-key"></i> Cambiar contraseña</li>
+              <li (click)="logout()"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>

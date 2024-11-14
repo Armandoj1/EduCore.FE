@@ -1,0 +1,24 @@
+<div class="login-container">
+    <div class="login-card">
+      <h2>Iniciar sesión</h2>
+      <form (ngSubmit)="onSubmit()">   
+        <div class="input-group">
+          <input type="email" id="email" [(ngModel)]="email" name="email" required placeholder="Email">
+        </div>
+        <div class="input-group">
+          <input type="password" id="password" [(ngModel)]="password" name="password" required placeholder="Contraseña">
+        </div>
+        <div class="remember-forgot">
+          <label>
+            <input type="checkbox" [(ngModel)]="rememberMe" name="rememberMe">
+            <span>Recordarme</span>
+          </label>
+          <a href="#">Olvidé la Contraseña</a>
+        </div>
+        <button type="submit">Acceder</button>
+      </form>
+      <div class="register">
+        <p>¿No tienes una cuenta? <a href="#">Crear una</a></p>
+      </div>
+    </div>
+  </div>

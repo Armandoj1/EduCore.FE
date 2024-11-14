@@ -1,0 +1,235 @@
+.student-management {
+  padding: 24px;
+  background: #ffffff;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #000000;
+  margin: 0;
+}
+
+.subtitle {
+  color: #6b7280;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.add-button {
+  background: #000000;
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 24px;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.student-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.student-table th {
+  background: #f4f4f5;
+  color: #18181b;
+  font-weight: 500;
+  text-align: left;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e4e4e7;
+}
+
+.student-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #e4e4e7;
+  color: #18181b;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #ffffff;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 800px;
+  padding: 24px;
+  position: relative;
+}
+
+.modal-header {
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.modal-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #18181b;
+  margin: 0 0 8px 0;
+}
+
+.modal-subtitle {
+  color: #6b7280;
+  font-size: 14px;
+  margin: 0 0 16px 0;
+}
+
+.close-button {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #6b7280;
+  cursor: pointer;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.form-group {
+  flex: 1;
+  min-width: 200px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  color: #18181b;
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #e4e4e7;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #18181b;
+  background: #ffffff;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.cancel-button,
+.save-button {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+}
+
+.cancel-button {
+  background: #ffffff;
+  color: #000000;
+  border: 1px solid #e4e4e7;
+}
+
+.save-button {
+  background: #000000;
+  color: #ffffff;
+}
+
+/* Dark mode */
+:host-context(.dark-mode) .student-management {
+  background-color: #1a1a1a;
+  box-shadow: 0 0 10px rgba(255,255,255,0.1);
+  color: #f0f0f0;
+}
+
+:host-context(.dark-mode) .title {
+  color: #ffffff;
+}
+
+:host-context(.dark-mode) .subtitle {
+  color: #aaaaaa;
+}
+
+:host-context(.dark-mode) .add-button {
+  background: #ffffff;
+  color: #000000;
+}
+
+:host-context(.dark-mode) .student-table th {
+  background: #2a2a2a;
+  color: #ffffff;
+  border-color: #555555;
+}
+
+:host-context(.dark-mode) .student-table td {
+  color: #ffffff;
+  border-color: #555555;
+}
+
+:host-context(.dark-mode) .modal-content {
+  background: #2a2a2a;
+}
+
+:host-context(.dark-mode) .modal-header h3 {
+  color: #ffffff;
+}
+
+:host-context(.dark-mode) .modal-subtitle {
+  color: #aaaaaa;
+}
+
+:host-context(.dark-mode) .form-group label {
+  color: #ffffff;
+}
+
+:host-context(.dark-mode) .form-group input,
+:host-context(.dark-mode) .form-group select {
+  background: #444444;
+  border-color: #555555;
+  color: #ffffff;
+}
+
+:host-context(.dark-mode) .cancel-button {
+  background: #000000;
+  color: #ffffff;
+  border: 1px solid #555555;
+}
+
+:host-context(.dark-mode) .save-button {
+  background: #ffffff;
+  color: #000000;
+}

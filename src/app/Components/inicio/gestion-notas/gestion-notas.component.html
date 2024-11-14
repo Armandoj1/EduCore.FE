@@ -1,0 +1,55 @@
+<div class="gestion-notas">
+    <div class="header">
+      <h1>INSTITUCION EDUCATIVA JUAN MEJÍA GOMEZ</h1>
+      <p>AUTORIZADO POR LA SECRETARIA DE EDUCACION DPTAL SEGÚN RESOLUCION No. 003311 DEL 09 DE DICIEMBRE DE 2010</p>
+      <p>REGISTRO DANE: 120178000093 NIT: 824,001,5947</p>
+      <h2>INFORME PERIÓDICO DE EVALUACIONES</h2>
+    </div>
+  
+    <div class="student-info">
+      <div><strong>CÓDIGO:</strong> {{estudiante.codigo}}</div>
+      <div><strong>NOMBRE:</strong> {{estudiante.nombre}}</div>
+      <div>
+        <span><strong>CURSO:</strong> {{estudiante.curso}}</span>
+        <span><strong>PERIODO:</strong> {{estudiante.periodo}}</span>
+        <span><strong>PROMEDIO:</strong> {{estudiante.promedio}}</span>
+      </div>
+      <div>
+        <span><strong>AÑO:</strong> {{estudiante.ano}}</span>
+        <span><strong>JORNADA:</strong> {{estudiante.jornada}}</span>
+        <span><strong>PUESTO:</strong> {{estudiante.puesto}}</span>
+      </div>
+    </div>
+  
+    <table>
+      <thead>
+        <tr>
+          <th>AREAS Y ASIGNATURAS</th>
+          <th>IH</th>
+          <th>1°P</th>
+          <th>2°P</th>
+          <th>3°P</th>
+          <th>4°P</th>
+          <th>PR</th>
+          <th>FLS</th>
+          <th>Desempeño</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let asignatura of asignaturas">
+          <td>{{asignatura.nombre}}</td>
+          <td>{{asignatura.ih}}</td>
+          <td *ngFor="let nota of asignatura.notas">{{nota}}</td>
+          <td *ngFor="let i of [].constructor(4 - asignatura.notas.length)"></td>
+          <td>{{asignatura.promedio}}</td>
+          <td></td>
+          <td>{{asignatura.desempeno}}</td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <div class="actions">
+      <button (click)="onImprimir()">Imprimir</button>
+      <button (click)="onEnviarCorreo()">Enviar por Correo</button>
+    </div>
+  </div>

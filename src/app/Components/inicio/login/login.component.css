@@ -1,0 +1,118 @@
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #b0c2dd; /* Very light blue background */
+    }
+  
+  .login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem;
+    box-sizing: border-box;
+    background-color:#d4e5fd;
+  }
+  
+  .login-card {
+    background-color: #ffffff;
+    padding: 2.5rem 4rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+  }
+  
+  h2 {  
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: 600;
+    font-size: 2rem;
+  }
+  
+  .input-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .input-group input {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    color: #2c3e50;
+    background-color: #f7f9fc;
+    border: 2px solid #d1d9e6;
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .input-group input:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.1);
+  }
+  
+  .input-group input::placeholder {
+    color: #95a5a6;
+  }
+  
+  .remember-forgot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    font-size: 14px;
+  }
+  
+  .remember-forgot label {
+    display: flex;
+    align-items: center;
+    color: #34495e;
+  }
+  
+  .remember-forgot input[type="checkbox"] {
+    margin-right: 10px;
+    width: 16px;
+    height: 16px;
+  }
+  
+  .remember-forgot a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  button {
+    width: 100%;
+    padding: 14px 0;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+  }
+  
+  button:hover {
+    background-color: #2980b9;
+  }
+  
+  button:active {
+    transform: translateY(1px);
+  }
+  
+  .register {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 14px;
+    color: #34495e;
+  }
+  
+  .register a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: 600;
+  }

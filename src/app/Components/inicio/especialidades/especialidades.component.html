@@ -1,0 +1,84 @@
+<div class="dashboard-container">
+  <div class="specialty-management">
+    <h2 class="title">Gestión de Especialidades</h2>
+    <p class="subtitle">Administra las especialidades de los docentes</p>
+    
+    <div class="actions-container">
+      <button class="add-button" (click)="openModal()">Agregar Especialidad</button>
+    </div>
+
+    <div class="specialty-list">
+      <table>
+        <thead>
+          <tr>
+            <th>ID del Docente</th>
+            <th>Nombre del Docente</th>
+            <th>ID de Especialidad</th>
+            <th>Nombre de Especialidad</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let especialidad of especialidades">
+            <td>{{ especialidad.docenteID }}</td>
+            <td>{{ especialidad.nombreCompleto }}</td>
+            <td>{{ especialidad.especialidadID }}</td>
+            <td>{{ especialidad.nombreEspecialidad }}</td>
+            <td>
+              <button class="edit-button" (click)="openModal(especialidad)">Editar</button>
+              <button class="delete-button" (click)="deleteEspecialidad(especialidad.especialidadID, especialidad.docenteID)">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="showModal" class="modal">
+      <div class="modal-content">
+        <h3>{{ isEditing ? 'Editar' : 'Agregar' }} Especialidad</h3>
+        <form (ngSubmit)="saveEspecialidad()">
+          <div class="form-group">
+            <label>Docente</label>
+            <div class="combobox">
+              <input 
+                type="text" 
+                [(ngModel)]="selectedDocenteName"
+                (focus)="toggleDropdown('DocenteID')"
+                (input)="filterItems('docenteID', $event)"
+                name="selectedDocenteName"
+                placeholder="Buscar docente..."
+              >
+              <div class="dropdown-list" *ngIf="dropdowns.DocenteID">
+                <div class="dropdown-item" *ngFor="let docente of filteredDocentesList" (click)="selectItem('docenteID', docente.cc, docente.nombreCompleto)">
+                  {{ docente.nombreCompleto }} ({{ docente.cc }})
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Especialidad</label>
+            <div class="combobox">
+              <input 
+                type="text" 
+                [(ngModel)]="selectedEspecialidadName"
+                (focus)="toggleDropdown('EspecialidadID')"
+                (input)="filterItems('especialidadID', $event)"
+                name="selectedEspecialidadName"
+                placeholder="Buscar especialidad..."
+              >
+              <div class="dropdown-list" *ngIf="dropdowns.EspecialidadID">
+                <div class="dropdown-item" *ngFor="let especialidad of filteredEspecialidadesList" (click)="selectItem('especialidadID', especialidad.id, especialidad.nombre)">
+                  {{ especialidad.nombre }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="submit">Guardar</button>
+            <button type="button" (click)="closeModal()">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,76 @@
+<div class="dashboard-container">
+  <div class="grade-management">
+    <h2 class="title">Gestión de Grados</h2>
+    <p class="subtitle">Administra los grados disponibles y asócialos a docentes y materias.</p>
+
+    <button class="add-button" (click)="openModal()">Agregar Grado</button>
+
+    <div class="grade-list">
+      <table>
+        <thead>
+          <tr>
+            <th>Docente</th>
+            <th>Identificación</th>
+            <th>Grado</th>
+            <th>Materia</th>
+            <th>Materia ID</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let grado of grados">
+            <td>{{ grado.nombreDocente }}</td>
+            <td>{{grado.docenteID}}</td>
+            <td>{{ grado.nombreGrado }}</td>
+            <td>{{ grado.nombreMateria }}</td>
+            <td>{{grado.materiaID}}</td>
+            <td>
+                <button class="edit-button" (click)="openModal(grado)">Editar</button>
+                <button class="delete-button" (click)="deleteGrado(grado.gradoID)">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="showModal" class="modal">
+      <div class="modal-content">
+        <h3>Formulario de Grado</h3>
+        <form (ngSubmit)="saveGrado()">
+          <div class="form-group">
+            <label for="grado">Grado:</label>
+            <select id="grado" [(ngModel)]="currentGrado.gradoID" name="gradoID" (ngModelChange)="onSelectionChange('grado', $event)">
+              <option [ngValue]="''">Seleccione un grado</option>
+              <option *ngFor="let grado of gradosList" [ngValue]="grado.gradoID">{{ grado.nombreGrado }}</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="docente">Docente:</label>
+            <select id="docente" [(ngModel)]="currentGrado.docenteID" name="docenteID" (ngModelChange)="onSelectionChange('docente', $event)">
+              <option [ngValue]="''">Seleccione un docente</option>
+              <option *ngFor="let docente of docentesList" [ngValue]="docente.docenteID">
+                {{ docente.nombreCompleto }} (ID: {{docente.docenteID}})
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="materia">Materia:</label>
+            <select id="materia" [(ngModel)]="currentGrado.materiaID" name="materiaID" (ngModelChange)="onSelectionChange('materia', $event)">
+              <option [ngValue]="''">Seleccione una materia</option>
+              <option *ngFor="let materia of materiasList" [ngValue]="materia.materiaID">
+                {{ materia.nombreMateria }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit">Guardar</button>
+            <button type="button" (click)="closeModal()">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
