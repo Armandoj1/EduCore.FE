@@ -12,13 +12,14 @@ import { HttpClientModule } from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NotasComponent } from './Components/inicio/notas/notas.component';
-import { GestionEstudianteComponent } from './Components/inicio/gestion-estudiante/gestion-estudiante.component';
 import { GestionDocenteComponent } from './Components/inicio/gestion-docente/gestion-docente.component';
 import { GestionGradosComponent } from './Components/inicio/gestion-grados/gestion-grados.component';
 import { GestionNotasComponent } from './Components/inicio/gestion-notas/gestion-notas.component';
 import { GestionMateriasComponent } from './Components/inicio/gestion-materias/gestion-materias.component';
 import { ModelsModel } from './src/app/models/models.model';
 import { EspecialidadesComponent } from './Components/inicio/especialidades/especialidades.component';
+import { GradosEstudiantesComponent } from './Components/inicio/grados-estudiantes/grados-estudiantes.component';
+import { GestionEstudianteComponent } from './Components/inicio/gestion-estudiante/gestion-estudiante.component';
 
 
 
@@ -31,12 +32,14 @@ import { EspecialidadesComponent } from './Components/inicio/especialidades/espe
     RegisterComponent,
     NotasComponent,
     GestionEstudianteComponent,
+    GradosEstudiantesComponent,
     GestionDocenteComponent,
     GestionGradosComponent,
     GestionNotasComponent,
     GestionMateriasComponent,
     ModelsModel,
-    EspecialidadesComponent
+    EspecialidadesComponent,
+    GradosEstudiantesComponent
   ],
   imports: [
     BrowserAnimationsModule,

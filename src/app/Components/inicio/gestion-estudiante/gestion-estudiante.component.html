@@ -1,4 +1,4 @@
-<div class="student-management">
+<div class="estudiante-management">
   <div class="header">
     <div>
       <h2 class="title">Gestión de Estudiantes</h2>
@@ -6,79 +6,79 @@
     </div>
   </div>
   
-  <button class="add-button" (click)="openAddStudentModal()">Agregar Estudiante</button>
+  <button class="add-button" (click)="openModal()">Agregar Estudiante</button>
 
   <div class="table-container">
-    <table class="student-table">
+    <table class="estudiante-table">
       <thead>
         <tr>
-          <th>ID</th>
+          <th>CC</th>
           <th>Nombre</th>
-          <th>Edad</th>
           <th>Correo</th>
+          <th>Teléfono</th>
+          <th>Edad</th>
+          <th>Dirección</th>
           <th>Grado</th>
+          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let student of students">
-          <td>{{ student.id }}</td>
-          <td>{{ student.name }}</td>
-          <td>{{ student.age }}</td>
-          <td>{{ student.email }}</td>
-          <td>{{ student.grade }}</td>
+        <tr *ngFor="let estudiante of estudiantes">
+          <td>{{ estudiante.cc }}</td>
+          <td>{{ estudiante.nombreCompleto }}</td>
+          <td class="email-cell">{{ estudiante.correo }}</td>
+          <td>{{ estudiante.telefono }}</td>
+          <td>{{ estudiante.edad }}</td>
+          <td>{{ estudiante.direccion }}</td>
+          <td>{{ estudiante.nombreGrado }}</td>
+          <td>
+            <button class="edit-button" (click)="openModal(estudiante)">Editar</button>
+            <button class="delete-button" (click)="deleteEstudiante(estudiante.cc)">Eliminar</button>
+          </td>
         </tr>
       </tbody>
     </table>
   </div>
 
-  <div class="modal" *ngIf="isModalOpen">
+  <div class="modal" *ngIf="showModal">
     <div class="modal-content">
       <div class="modal-header">
-        <h3>Agregar Estudiante</h3>
+        <h3>{{ isEditing ? 'Editar' : 'Agregar' }} Estudiante</h3>
         <button class="close-button" (click)="closeModal()">×</button>
       </div>
-      <p class="modal-subtitle">Ingrese los datos del nuevo estudiante aquí.</p>
-      <form (ngSubmit)="addStudent()">
+      <p class="modal-subtitle">{{ isEditing ? 'Modifique' : 'Ingrese' }} los datos del estudiante aquí.</p>
+      <form (ngSubmit)="saveEstudiante()">
         <div class="form-row">
           <div class="form-group">
-            <label for="id">Número de Identificación</label>
-            <input id="id" type="text" [(ngModel)]="newStudent.id" name="id" required>
+            <label>Número de Identificación</label>
+            <input type="text" [(ngModel)]="currentEstudiante.cc" name="cc" [disabled]="isEditing">
           </div>
           <div class="form-group">
-            <label for="name">Nombre Completo</label>
-            <input id="name" type="text" [(ngModel)]="newStudent.name" name="name" required>
+            <label>Nombre Completo</label>
+            <input type="text" [(ngModel)]="currentEstudiante.nombreCompleto" name="nombreCompleto">
           </div>
           <div class="form-group">
-            <label for="birthdate">Fecha de Nacimiento</label>
-            <input id="birthdate" type="date" [(ngModel)]="newStudent.birthdate" name="birthdate" required>
+            <label>Fecha de Nacimiento</label>
+            <input type="date" [(ngModel)]="currentEstudiante.fechaNacimiento" name="fechaNacimiento">
           </div>
         </div>
         <div class="form-row">
           <div class="form-group">
-            <label for="email">Correo Electrónico</label>
-            <input id="email" type="email" [(ngModel)]="newStudent.email" name="email" required>
+            <label>Correo Electrónico</label>
+            <input type="email" [(ngModel)]="currentEstudiante.correo" name="correo">
           </div>
           <div class="form-group">
-            <label for="address">Dirección</label>
-            <input id="address" type="text" [(ngModel)]="newStudent.address" name="address" required>
+            <label>Dirección</label>
+            <input type="text" [(ngModel)]="currentEstudiante.direccion" name="direccion">
           </div>
           <div class="form-group">
-            <label for="phone">Teléfono</label>
-            <input id="phone" type="tel" [(ngModel)]="newStudent.phone" name="phone" required>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="grade">Grado</label>
-            <select id="grade" [(ngModel)]="newStudent.grade" name="grade" required>
-              <option value="">Seleccione el grado</option>
-              <option *ngFor="let grade of grades" [value]="grade">{{ grade }}</option>
-            </select>
+            <label>Teléfono</label>
+            <input type="tel" [(ngModel)]="currentEstudiante.telefono" name="telefono">
           </div>
         </div>
         <div class="form-actions">
           <button type="button" class="cancel-button" (click)="closeModal()">Cancelar</button>
-          <button type="submit" class="save-button">Guardar</button>
+          <button type="submit" class="save-button">{{ isEditing ? 'Actualizar' : 'Guardar' }}</button>
         </div>
       </form>
     </div>

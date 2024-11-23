@@ -1,0 +1,94 @@
+<div class="grado-estudiante-management">
+    <div class="header">
+      <div>
+        <h2 class="title">Gestión de Grados y Estudiantes</h2>
+        <p class="subtitle">Administra la asignación de estudiantes a grados</p>
+      </div>
+    </div>
+    
+    <button class="add-button" (click)="openModal()">Asignar Estudiante a Grado</button>
+  
+    <div class="table-container">
+      <table class="grado-estudiante-table">
+        <thead>
+          <tr>
+            <th>ID del Grado</th>
+            <th>Nombre del Grado</th>
+            <th>CC del Estudiante</th>
+            <th>Nombre del Estudiante</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let gradoEstudiante of gradosEstudiantes">
+            <td>{{ gradoEstudiante.gradoID }}</td>
+            <td>{{ gradoEstudiante.nombreGrado }}</td>
+            <td>{{ gradoEstudiante.estudianteCC }}</td>
+            <td>{{ gradoEstudiante.nombreCompleto }}</td>
+            <td>
+              <button class="edit-button" (click)="openModal(gradoEstudiante)">Editar</button>
+              <button class="delete-button" (click)="deleteGradoEstudiante(gradoEstudiante.gradoID, gradoEstudiante.estudianteCC)">Eliminar</button>
+              <button class="view-button" (click)="loadEstudiantesAsignados(gradoEstudiante.gradoID)">Ver Estudiantes</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <div *ngIf="selectedGradoId" class="estudiantes-asignados">
+      <h3>Estudiantes asignados al grado {{ selectedGradoId }}</h3>
+      <ul>
+        <li *ngFor="let estudiante of estudiantesAsignados">
+          {{ estudiante.nombreCompleto }} ({{ estudiante.estudianteCC }})
+        </li>
+      </ul>
+    </div>
+  
+    <div *ngIf="showModal" class="modal">
+      <div class="modal-content">
+        <h3>{{ isEditing ? 'Editar' : 'Asignar' }} Estudiante a Grado</h3>
+        <form (ngSubmit)="saveGradoEstudiante()">
+          <div class="form-group">
+            <label>Estudiante</label>
+            <div class="combobox">
+              <input 
+                type="text" 
+                [(ngModel)]="selectedEstudianteName"
+                (focus)="toggleDropdown('EstudianteCC')"
+                (input)="filterItems('estudianteCC', $event)"
+                name="selectedEstudianteName"
+                placeholder="Buscar estudiante..."
+              >
+              <div class="dropdown-list" *ngIf="dropdowns.EstudianteCC">
+                <div class="dropdown-item" *ngFor="let estudiante of filteredEstudiantesList" (click)="selectItem('estudianteCC', estudiante.estudianteCC, estudiante.nombreCompleto)">
+                  {{ estudiante.nombreCompleto }} ({{ estudiante.estudianteCC }})
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Grado</label>
+            <div class="combobox">
+              <input 
+                type="text" 
+                [(ngModel)]="selectedGradoName"
+                (focus)="toggleDropdown('GradoID')"
+                (input)="filterItems('gradoID', $event)"
+                name="selectedGradoName"
+                placeholder="Buscar grado..."
+              >
+              <div class="dropdown-list" *ngIf="dropdowns.GradoID">
+                <div class="dropdown-item" *ngFor="let grado of filteredGradosList" (click)="selectItem('gradoID', grado.id, grado.nombre)">
+                  {{ grado.nombre }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="submit">Guardar</button>
+            <button type="button" (click)="closeModal()">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

@@ -1,47 +1,91 @@
-<div class="subject-management" [@fadeInOut]>
-    <h2 class="title" [@slideInFromTop]>Gestión de Materias</h2>
-    
-    <div class="search-bar" [@slideInFromLeft]>
-      <input type="text" [(ngModel)]="searchTerm" placeholder="Buscar materia...">
-      <button (click)="searchSubject()">Buscar</button>
-    </div>
-  
-    <form (ngSubmit)="saveSubject()" class="subject-form" [@slideInFromRight]>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="subjectName">Nombre de la materia:</label>
-          <input type="text" id="subjectName" [(ngModel)]="currentSubject.name" name="subjectName" required>
-        </div>
-        <div class="form-group x-small-input">
-          <label for="subjectId">ID de la materia:</label>
-          <input type="text" id="subjectId" [(ngModel)]="currentSubject.id" name="subjectId" required>
-        </div>
-      </div>
-      <div class="form-actions">
-        <button type="submit">{{ isEditing ? 'Actualizar' : 'Guardar' }}</button>
-        <button type="button" (click)="cancelEdit()">Cancelar</button>
-      </div>
-    </form>
-  
-    <div class="subject-list" [@slideInFromBottom]>
-      <table>
-        <thead>
-          <tr>
-            <th>ID de la Materia</th>
-            <th>Nombre de la Materia</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let subject of subjects; let i = index" [@fadeIn]="i">
-            <td>{{subject.id}}</td>
-            <td>{{subject.name}}</td>
-            <td>
-              <button (click)="editSubject(subject)" class="edit-btn">Editar</button>
-              <button (click)="deleteSubject(subject)" class="delete-btn">Eliminar</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+<div class="materia-management" [@fadeInOut]>
+  <div class="header">
+    <div>
+      <h2 class="title" [@slideInFromTop]>Gestión de Materias</h2>
+      <p class="subtitle">Administra las materias y sus grados asociados</p>
     </div>
   </div>
+  
+  <div class="search-bar" [@slideInFromLeft]>
+    <input type="text" [(ngModel)]="searchTerm" placeholder="Buscar materia...">
+    <button (click)="searchMateria()">Buscar</button>
+  </div>
+
+  <button class="add-button" (click)="openModal()" [@slideInFromRight]>Agregar Materia</button>
+
+  <div class="table-container" [@slideInFromBottom]>
+    <table class="materia-table">
+      <thead>
+        <tr>
+          <th>ID de la Materia</th>
+          <th>Nombre de la Materia</th>
+          <th>ID del Grado</th>
+          <th>Nombre del Grado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let materia of materias; let i = index" [@fadeIn]="i">
+          <td>{{ materia.materiaID }}</td>
+          <td>{{ materia.nombreMateria }}</td>
+          <td>{{ materia.gradoID }}</td>
+          <td>{{ materia.nombreGrado }}</td>
+          <td>
+            <button class="edit-button" (click)="openModal(materia)">Editar</button>
+            <button class="delete-button" (click)="deleteMateria(materia.materiaID)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="showModal" class="modal">
+    <div class="modal-content">
+      <h3>{{ isEditing ? 'Editar' : 'Agregar' }} Materia</h3>
+      <form (ngSubmit)="saveMateria()">
+        <div class="form-group">
+          <label>Materia</label>
+          <div class="combobox">
+            <input 
+              type="text" 
+              [(ngModel)]="selectedMateriaNombre"
+              (focus)="toggleDropdown('MateriaID')"
+              (input)="filterItems('materiaID', $event)"
+              name="selectedMateriaNombre"
+              placeholder="Buscar materia..."
+            >
+            <div class="dropdown-list" *ngIf="dropdowns.MateriaID">
+              <div class="dropdown-item" *ngFor="let materia of filteredMateriasList" (click)="selectItem('materiaID', materia.materiaID, materia.nombreMateria)">
+                {{ materia.nombreMateria }} ({{ materia.materiaID }})
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Grado</label>
+          <div class="combobox">
+            <input 
+              type="text" 
+              [(ngModel)]="selectedGradoName"
+              (focus)="toggleDropdown('GradoID')"
+              (input)="filterItems('gradoID', $event)"
+              name="selectedGradoName"
+              placeholder="Buscar grado..."
+              [disabled]="isEditing"
+            >
+            <div class="dropdown-list" *ngIf="dropdowns.GradoID">
+              <div class="dropdown-item" *ngFor="let grado of filteredGradosList" (click)="selectItem('gradoID', grado.id, grado.nombre)">
+                {{ grado.nombre }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit">{{ isEditing ? 'Actualizar' : 'Guardar' }}</button>
+          <button type="button" (click)="closeModal()">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+

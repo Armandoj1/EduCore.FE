@@ -44,9 +44,9 @@ export class GestionDocenteComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadDocentes();
-    this.loadMaterias();
-    this.loadEspecialidades();
-    this.loadGrados();
+    // this.loadMaterias();
+    // this.loadEspecialidades();
+    // this.loadGrados();
   }
 
   loadDocentes(): void {
