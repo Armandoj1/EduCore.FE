@@ -8,36 +8,39 @@
     </div>
     <nav>
       <a [routerLink]="['/inicio']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="setPageTitle('Inicio')">
-        <i class="fas fa-home"></i><span>Inicio</span>
+        <span class="icon-circle"><i class="fas fa-home"></i></span>
+        <span class="icon-text">Inicio</span>
       </a>
       <div class="dropdown" [class.open]="dropdowns['estudiante']">
         <a (click)="toggleDropdown('estudiante')">
-          <i class="fas fa-user-graduate"></i>
-          <span>Estudiante</span>
-          <i class="fas fa-chevron-right dropdown-icon" [class.rotate]="dropdowns['estudiante']"></i>
+          <span class="icon-circle"><i class="fas fa-user-graduate"></i></span>
+          <span class="icon-text">Estudiante</span>
+          <i class="fas fa-chevron-right dropdown-icon"></i>
         </a>
-        <div class="dropdown-content">
+        <div class="dropdown-content" [class.hidden]="!isSidebarExpanded">
           <a [routerLink]="['/inicio/Estudiante']" routerLinkActive="active" (click)="setPageTitle('Registrar datos de estudiantes')">Registro estudiantes</a>
           <a [routerLink]="['/inicio/GradosEstudiantes']" routerLinkActive="active" (click)="setPageTitle('Estudiante - Grados')">Grados</a>
         </div>
       </div>
       <div class="dropdown" [class.open]="dropdowns['docente']">
         <a (click)="toggleDropdown('docente')">
-          <i class="fas fa-chalkboard-teacher"></i>
-          <span>Docente</span>
-          <i class="fas fa-chevron-right dropdown-icon" [class.rotate]="dropdowns['docente']"></i>
+          <span class="icon-circle"><i class="fas fa-chalkboard-teacher"></i></span>
+          <span class="icon-text">Docente</span>
+          <i class="fas fa-chevron-right dropdown-icon"></i>
         </a>
-        <div class="dropdown-content">
+        <div class="dropdown-content" [class.hidden]="!isSidebarExpanded">
           <a [routerLink]="['/inicio/Docente']" routerLinkActive="active" (click)="setPageTitle('Registro de docentes')">Registro de docentes</a>
           <a [routerLink]="['/inicio/Especialidades']" routerLinkActive="active" (click)="setPageTitle('Vinculación de docentes a una especialidad')">Especialidades</a>
           <a [routerLink]="['/inicio/Grados']" routerLinkActive="active" (click)="setPageTitle('Vinculación de docentes con materias y grados')">Grados</a>
         </div>
       </div>
       <a [routerLink]="['/inicio/Materias']" routerLinkActive="active" (click)="setPageTitle('Materias')">
-        <i class="fas fa-book"></i><span>Materias</span>
+        <span class="icon-circle"><i class="fas fa-book"></i></span>
+        <span class="icon-text">Materias</span>
       </a>
       <a [routerLink]="['/inicio/Notas']" routerLinkActive="active" (click)="setPageTitle('Notas')">
-        <i class="fas fa-clipboard-list"></i><span>Notas</span>
+        <span class="icon-circle"><i class="fas fa-clipboard-list"></i></span>
+        <span class="icon-text">Notas</span>
       </a>
     </nav>
     <div class="dark-mode-toggle">
@@ -56,13 +59,23 @@
           <i class="fas fa-bell"></i>
         </button>
         <div class="user-profile" (click)="toggleProfileMenu()">
-          <i class="fas fa-user-circle"></i>
+          <span class="icon-circle"><i class="fas fa-user-circle"></i></span>
+          <span class="user-name">{{ userName }}</span>
           <div class="profile-dropdown" *ngIf="isProfileMenuOpen">
             <h3>{{ userName }}</h3>
             <ul>
-              <li (click)="editProfile()"><i class="fas fa-user-edit"></i> Editar perfil</li>
-              <li (click)="changePassword()"><i class="fas fa-key"></i> Cambiar contraseña</li>
-              <li (click)="logout()"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</li>
+              <li (click)="editProfile()">
+                <span class="icon-circle"><i class="fas fa-user-edit"></i></span>
+                <span class="icon-text">Editar perfil</span>
+              </li>
+              <li (click)="changePassword()">
+                <span class="icon-circle"><i class="fas fa-key"></i></span>
+                <span class="icon-text">Cambiar contraseña</span>
+              </li>
+              <li (click)="logout()">
+                <span class="icon-circle"><i class="fas fa-sign-out-alt"></i></span>
+                <span class="icon-text">Cerrar sesión</span>
+              </li>
             </ul>
           </div>
         </div>
@@ -72,4 +85,13 @@
       <router-outlet></router-outlet>
     </div>
   </main>
+
+  <div *ngIf="showWelcomeMessage" class="welcome-message">
+    <div class="welcome-content">
+      <h2>Bienvenido, {{ userName }}!</h2>
+      <p>Has iniciado sesión exitosamente.</p>
+      <button (click)="closeWelcomeMessage()">Cerrar</button>
+    </div>
+  </div>
 </div>
+

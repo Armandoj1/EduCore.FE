@@ -1,4 +1,6 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
+import { AuthService, User } from '../../Services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-inicio',
@@ -15,11 +17,23 @@ export class InicioComponent implements OnInit {
     estudiante: false,
     docente: false
   };
+  currentUser: User | null = null;
+  showWelcomeMessage: boolean = false;
 
-  constructor(private renderer: Renderer2) { }
+  constructor(private renderer: Renderer2, private authService: AuthService, private router: Router) { }
   
   ngOnInit(): void {
-    // Initialization logic if needed
+    const storedUser = localStorage.getItem('currentUser');
+    if (storedUser) {
+      this.currentUser = JSON.parse(storedUser);
+      this.userName = this.currentUser?.usuario || 'Usuario';
+      this.showWelcomeMessage = true;
+      setTimeout(() => {
+        this.showWelcomeMessage = false;
+      }, 5000);
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
 
   toggleDarkMode(): void {
@@ -49,7 +63,7 @@ export class InicioComponent implements OnInit {
       this.isSidebarExpanded = true;
       setTimeout(() => {
         this.dropdowns[dropdown] = !this.dropdowns[dropdown];
-      }, 300); // Delay to match the sidebar expansion animation
+      }, 300);
     } else {
       this.dropdowns[dropdown] = !this.dropdowns[dropdown];
     }
@@ -68,6 +82,12 @@ export class InicioComponent implements OnInit {
   }
 
   logout(): void {
-    console.log('Cerrar sesión');
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
+
+  closeWelcomeMessage(): void {
+    this.showWelcomeMessage = false;
   }
 }
+

@@ -90,7 +90,8 @@
   padding: 15px 0;
 }
 
-.sidebar:not(.expanded) nav a span, .sidebar:not(.expanded) .dropdown > a span, .sidebar:not(.expanded) .dropdown-icon {
+.sidebar:not(.expanded) .icon-text,
+.sidebar:not(.expanded) .dropdown-icon {
   display: none;
 }
 
@@ -135,6 +136,10 @@
 
 .dark-mode .dropdown-content a:hover {
   background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar:not(.expanded) .dropdown-content {
+  display: none;
 }
 
 .dark-mode-toggle {
@@ -202,7 +207,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 80px;
+  height: 100px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -219,7 +224,7 @@ header {
 .notifications, .user-profile {
   background: none;
   border: none;
-  font-size: 20px;
+  font-size: 18px;
   margin-left: 20px;
   cursor: pointer;
   color: inherit;
@@ -239,6 +244,11 @@ h1 {
 
 .user-profile {
   position: relative;
+}
+
+.user-name {
+  margin-left: 10px;
+  font-size: 16px;
 }
 
 .profile-dropdown {
@@ -289,6 +299,50 @@ h1 {
   background-color: #3a3a3a;
 }
 
+.welcome-message {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1001;
+}
+
+.welcome-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode .welcome-content {
+  background-color: #2a2a2a;
+  color: #f0f0f0;
+}
+
+.welcome-content h2 {
+  margin-top: 0;
+}
+
+.welcome-content button {
+  margin-top: 15px;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.welcome-content button:hover {
+  background-color: #0056b3;
+}
+
 @media (max-width: 768px) {
   .sidebar {
     position: fixed;
@@ -327,3 +381,35 @@ h1 {
 .sidebar.expanded nav a, .sidebar.expanded .dropdown > a {
   animation: slideIn 0.3s ease-out;
 }
+
+.icon-circle {
+  width: 32px;
+  height: 32px;
+  background-color: #f0f0f0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  transition: margin-right 0.3s ease, background-color 0.3s ease;
+}
+
+.dark-mode .icon-circle {
+  background-color: #3a3a3a;
+}
+
+.sidebar nav a:hover .icon-circle,
+.sidebar nav a.active .icon-circle,
+.dropdown > a:hover .icon-circle {
+  background-color: #007bff;
+  color: white;
+}
+
+.icon-text {
+  font-weight: 500;
+}
+
+.sidebar:not(.expanded) .icon-circle {
+  margin-right: 0;
+}
+

@@ -1,118 +1,317 @@
-body {
-    font-family: 'Inter', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #b0c2dd; /* Very light blue background */
-    }
-  
-  .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 2rem;
-    box-sizing: border-box;
-    background-color:#d4e5fd;
-  }
-  
-  .login-card {
-    background-color: #ffffff;
-    padding: 2.5rem 4rem;
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 600px;
-  }
-  
-  h2 {  
-    color: #2c3e50;
-    text-align: center;
-    margin-bottom: 2rem;
-    font-weight: 600;
-    font-size: 2rem;
-  }
-  
-  .input-group {
-    margin-bottom: 1.5rem;
-  }
-  
-  .input-group input {
-    width: 100%;
-    padding: 14px;
-    font-size: 16px;
-    color: #2c3e50;
-    background-color: #f7f9fc;
-    border: 2px solid #d1d9e6;
-    border-radius: 10px;
-    outline: none;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .input-group input:focus {
-    border-color: #3498db;
-    box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.1);
-  }
-  
-  .input-group input::placeholder {
-    color: #95a5a6;
-  }
-  
-  .remember-forgot {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    font-size: 14px;
-  }
-  
-  .remember-forgot label {
-    display: flex;
-    align-items: center;
-    color: #34495e;
-  }
-  
-  .remember-forgot input[type="checkbox"] {
-    margin-right: 10px;
-    width: 16px;
-    height: 16px;
-  }
-  
-  .remember-forgot a {
-    color: #3498db;
-    text-decoration: none;
-    font-weight: 500;
-  }
-  
-  button {
-    width: 100%;
-    padding: 14px 0;
-    background-color: #3498db;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.1s ease;
-  }
-  
-  button:hover {
-    background-color: #2980b9;
-  }
-  
-  button:active {
-    transform: translateY(1px);
-  }
-  
-  .register {
-    text-align: center;
-    margin-top: 2rem;
-    font-size: 14px;
-    color: #34495e;
-  }
-  
-  .register a {
-    color: #3498db;
-    text-decoration: none;
-    font-weight: 600;
-  }
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 24px;
+  background-color: #f0f0f0;
+  font-family: system-ui, -apple-system, sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboard-animation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.classroom {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #e0e0e0;
+  background-image: 
+    linear-gradient(#ccc 1px, transparent 1px),
+    linear-gradient(90deg, #ccc 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.student, .teacher {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: #333;
+  border-radius: 50%;
+  animation: move 10s infinite linear;
+}
+
+.student1 { top: 30%; left: 20%; animation-delay: -2s; }
+.student2 { top: 50%; left: 40%; animation-delay: -4s; }
+.student3 { top: 70%; left: 60%; animation-delay: -6s; }
+.teacher { top: 50%; left: 80%; animation-delay: -8s; width: 30px; height: 30px; }
+
+@keyframes move {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(20px, 20px); }
+  50% { transform: translate(0, 40px); }
+  75% { transform: translate(-20px, 20px); }
+  100% { transform: translate(0, 0); }
+}
+
+.login-card {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 2.5rem 4rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.card-animation::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #ff9a9e, #fad0c4, #ffecd2);
+  z-index: -1;
+  filter: blur(10px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card-animation:hover::before {
+  opacity: 1;
+}
+
+h2 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #000000;
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 3px;
+  background-color: #000000;
+  transition: width 0.3s ease;
+}
+
+.login-card:hover h2::after {
+  width: 100px;
+}
+
+.input-group {
+  margin-bottom: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  font-size: 14px;
+  color: #18181b;
+  background-color: #ffffff;
+  border: none;
+  border-bottom: 2px solid #e4e4e7;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+  border-bottom-color: #000000;
+}
+
+.input-group::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #000000;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.input-group input:focus ~ ::after {
+  transform: scaleX(1);
+}
+
+.remember-forgot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  font-size: 14px;
+}
+
+.remember-forgot label {
+  display: flex;
+  align-items: center;
+  color: #18181b;
+}
+
+.remember-forgot input[type="checkbox"] {
+  margin-right: 8px;
+  width: 16px;
+  height: 16px;
+}
+
+.remember-forgot a {
+  color: #18181b;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.remember-forgot a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #18181b;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.remember-forgot a:hover::after {
+  transform: scaleX(1);
+}
+
+button {
+  width: 100%;
+  padding: 12px 0;
+  background-color: #000000;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+button:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.register {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 14px;
+  color: #18181b;
+}
+
+.register a {
+  color: #000000;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.register a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #000000;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.register a:hover::after {
+  transform: scaleX(1);
+}
+
+.error-message {
+  color: #dc3545;
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 14px;
+  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+/* Estilos para modo oscuro */
+:host-context(.dark-mode) .login-container {
+  background-color: #18181b;
+}
+
+:host-context(.dark-mode) .login-card {
+  background-color: #2a2a2a;
+  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+}
+
+:host-context(.dark-mode) h2,
+:host-context(.dark-mode) .remember-forgot label,
+:host-context(.dark-mode) .remember-forgot a,
+:host-context(.dark-mode) .register,
+:host-context(.dark-mode) .register a {
+  color: #ffffff;
+}
+
+:host-context(.dark-mode) .input-group input {
+  background-color: #2a2a2a;
+  border-bottom-color: #555555;
+  color: #ffffff;
+}
+
+:host-context(.dark-mode) .input-group input:focus {
+  border-bottom-color: #ffffff;
+}
+
+:host-context(.dark-mode) button {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+:host-context(.dark-mode) button::before {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+:host-context(.dark-mode) .remember-forgot a::after,
+:host-context(.dark-mode) .register a::after {
+  background-color: #ffffff;
+}
+
