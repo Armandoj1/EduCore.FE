@@ -7,41 +7,60 @@
       <h2 *ngIf="isSidebarExpanded">EduCore</h2>
     </div>
     <nav>
+      <!-- Opciones comunes para todos los roles -->
       <a [routerLink]="['/inicio']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="setPageTitle('Inicio')">
         <span class="icon-circle"><i class="fas fa-home"></i></span>
         <span class="icon-text">Inicio</span>
       </a>
-      <div class="dropdown" [class.open]="dropdowns['estudiante']">
-        <a (click)="toggleDropdown('estudiante')">
-          <span class="icon-circle"><i class="fas fa-user-graduate"></i></span>
-          <span class="icon-text">Estudiante</span>
-          <i class="fas fa-chevron-right dropdown-icon"></i>
-        </a>
-        <div class="dropdown-content" [class.hidden]="!isSidebarExpanded">
-          <a [routerLink]="['/inicio/Estudiante']" routerLinkActive="active" (click)="setPageTitle('Registrar datos de estudiantes')">Registro estudiantes</a>
-          <a [routerLink]="['/inicio/GradosEstudiantes']" routerLinkActive="active" (click)="setPageTitle('Estudiante - Grados')">Grados</a>
-        </div>
-      </div>
-      <div class="dropdown" [class.open]="dropdowns['docente']">
-        <a (click)="toggleDropdown('docente')">
-          <span class="icon-circle"><i class="fas fa-chalkboard-teacher"></i></span>
-          <span class="icon-text">Docente</span>
-          <i class="fas fa-chevron-right dropdown-icon"></i>
-        </a>
-        <div class="dropdown-content" [class.hidden]="!isSidebarExpanded">
-          <a [routerLink]="['/inicio/Docente']" routerLinkActive="active" (click)="setPageTitle('Registro de docentes')">Registro de docentes</a>
-          <a [routerLink]="['/inicio/Especialidades']" routerLinkActive="active" (click)="setPageTitle('Vinculación de docentes a una especialidad')">Especialidades</a>
-          <a [routerLink]="['/inicio/Grados']" routerLinkActive="active" (click)="setPageTitle('Vinculación de docentes con materias y grados')">Grados</a>
-        </div>
-      </div>
-      <a [routerLink]="['/inicio/Materias']" routerLinkActive="active" (click)="setPageTitle('Materias')">
-        <span class="icon-circle"><i class="fas fa-book"></i></span>
-        <span class="icon-text">Materias</span>
+      <a [routerLink]="['/inicio/Eventos']" routerLinkActive="active" (click)="setPageTitle('Eventos')">
+        <span class="icon-circle"><i class="fas fa-calendar-alt"></i></span>
+        <span class="icon-text">Eventos</span>
       </a>
-      <a [routerLink]="['/inicio/Notas']" routerLinkActive="active" (click)="setPageTitle('Notas')">
-        <span class="icon-circle"><i class="fas fa-clipboard-list"></i></span>
-        <span class="icon-text">Notas</span>
-      </a>
+
+      <!-- Opciones para Directivo -->
+      <ng-container *ngIf="isDirectivo()">
+        <div class="dropdown" [class.open]="dropdowns['estudiante']">
+          <a (click)="toggleDropdown('estudiante')">
+            <span class="icon-circle"><i class="fas fa-user-graduate"></i></span>
+            <span class="icon-text">Estudiante</span>
+            <i class="fas fa-chevron-right dropdown-icon"></i>
+          </a>
+          <div class="dropdown-content" [class.hidden]="!isSidebarExpanded">
+            <a [routerLink]="['/inicio/Estudiante']" routerLinkActive="active" (click)="setPageTitle('Registrar datos de estudiantes')">Registro estudiantes</a>
+            <a [routerLink]="['/inicio/GradosEstudiantes']" routerLinkActive="active" (click)="setPageTitle('Estudiante - Grados')">Grados</a>
+          </div>
+        </div>
+        <div class="dropdown" [class.open]="dropdowns['docente']">
+          <a (click)="toggleDropdown('docente')">
+            <span class="icon-circle"><i class="fas fa-chalkboard-teacher"></i></span>
+            <span class="icon-text">Docente</span>
+            <i class="fas fa-chevron-right dropdown-icon"></i>
+          </a>
+          <div class="dropdown-content" [class.hidden]="!isSidebarExpanded">
+            <a [routerLink]="['/inicio/Docente']" routerLinkActive="active" (click)="setPageTitle('Registro de docentes')">Registro de docentes</a>
+            <a [routerLink]="['/inicio/Especialidades']" routerLinkActive="active" (click)="setPageTitle('Vinculación de docentes a una especialidad')">Especialidades</a>
+            <a [routerLink]="['/inicio/Grados']" routerLinkActive="active" (click)="setPageTitle('Vinculación de docentes con materias y grados')">Grados</a>
+          </div>
+        </div>
+        <a [routerLink]="['/inicio/Materias']" routerLinkActive="active" (click)="setPageTitle('Materias')">
+          <span class="icon-circle"><i class="fas fa-book"></i></span>
+          <span class="icon-text">Materias</span>
+        </a>
+        <a [routerLink]="['/inicio/Notas']" routerLinkActive="active" (click)="setPageTitle('Notas')">
+          <span class="icon-circle"><i class="fas fa-clipboard-list"></i></span>
+          <span class="icon-text">Notas</span>
+        </a>
+      </ng-container>
+
+      <!-- Opciones para Docente -->
+      <ng-container *ngIf="isDocente()">
+        <!-- Aquí puedes agregar opciones específicas para Docentes en el futuro -->
+      </ng-container>
+
+      <!-- Opciones para Estudiante -->
+      <ng-container *ngIf="isEstudiante()">
+        <!-- Aquí puedes agregar opciones específicas para Estudiantes en el futuro -->
+      </ng-container>
     </nav>
     <div class="dark-mode-toggle">
       <label class="switch">
@@ -94,4 +113,3 @@
     </div>
   </div>
 </div>
-

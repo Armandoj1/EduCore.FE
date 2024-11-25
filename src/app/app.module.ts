@@ -20,6 +20,7 @@ import { ModelsModel } from './src/app/models/models.model';
 import { EspecialidadesComponent } from './Components/inicio/especialidades/especialidades.component';
 import { GradosEstudiantesComponent } from './Components/inicio/grados-estudiantes/grados-estudiantes.component';
 import { GestionEstudianteComponent } from './Components/inicio/gestion-estudiante/gestion-estudiante.component';
+import { EventosComponent } from './Components/inicio/eventos/eventos.component';
 
 
 
@@ -39,7 +40,8 @@ import { GestionEstudianteComponent } from './Components/inicio/gestion-estudian
     GestionMateriasComponent,
     ModelsModel,
     EspecialidadesComponent,
-    GradosEstudiantesComponent
+    GradosEstudiantesComponent,
+    EventosComponent
   ],
   imports: [
     BrowserAnimationsModule,

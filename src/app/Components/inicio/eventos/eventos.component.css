@@ -1,0 +1,435 @@
+.eventos-management {
+  padding: 24px;
+  background: #ffffff;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, sans-serif;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.eventos-management::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #ff00ff, #00ff00, #ff00ff, #00ff00);
+  z-index: -1;
+  filter: blur(10px);
+  background-size: 400% 400%;
+  animation: glowing 15s ease infinite;
+}
+
+@keyframes glowing {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #000000;
+  margin: 0;
+}
+
+.subtitle {
+  color: #6b7280;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.add-button {
+  background: #000000;
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 24px;
+}
+
+.eventos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(calc(33.333% - 20px), 1fr));
+  gap: 20px;
+}
+
+.evento-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 0; /* Add this line to allow text to wrap */
+}
+
+.evento-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.evento-estado {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  background-color: #e5e7eb;
+  color: #4b5563;
+}
+
+.evento-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.evento-tipo {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  background-color: #e5e7eb;
+  color: #4b5563
+;
+}
+
+.evento-descripcion {
+  flex-grow: 1;
+  margin-bottom: 15px;
+  color: #4b5563;
+}
+
+.evento-fechas {
+  display: flex;
+  gap: 10px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.evento-card h3 {
+  margin-top: 0;
+  color: #000000;
+}
+
+.evento-card p {
+  margin: 10px 0;
+  color: #4b5563;
+}
+
+.edit-button, .delete-button {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.edit-button {
+  background: #ffffff;
+  color: #000000;
+  border: 1px solid #000000;
+}
+
+.edit-button:hover {
+  background: #000000;
+  color: #ffffff;
+}
+
+.delete-button {
+  background: #ffffff;
+  color: #dc2626;
+  border: 1px solid #dc2626;
+}
+
+.delete-button:hover {
+  background: #dc2626;
+  color: #ffffff;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #ffffff;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  padding: 24px;
+  position: relative;
+}
+
+.modal-header {
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.modal-header h3 {  
+  font-size: 18px;
+  font-weight: 600;
+  color: #18181b;
+  margin: 0 0 8px 0;
+}
+
+.modal-subtitle {
+  color: #6b7280;
+  font-size: 14px;
+  margin: 0 0 16px 0;
+}
+
+.close-button {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #6b7280;
+  cursor: pointer;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  color: #18181b;
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #e4e4e7;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #18181b;
+}
+
+.form-group select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23000000' d='M10.293 3.293L6 7.586 1.707 3.293A1 1 0 00.293 4.707l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px;
+  padding-right: 30px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #000000;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.cancel-button,
+.save-button {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+}
+
+.cancel-button {
+  background: #ffffff;
+  color: #000000;
+  border: 1px solid #e4e4e7;
+}
+
+.save-button {
+  background: #000000;
+  color: #ffffff;
+}
+
+/* Dark mode styles */
+:host-context(.dark-mode) .eventos-management {
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+
+:host-context(.dark-mode) .title {
+  color: #ffffff;
+}
+
+:host-context(.dark-mode) .subtitle {
+  color: #a0aec0;
+}
+
+:host-context(.dark-mode) .add-button {
+  background: #ffffff;
+  color: #000000;
+}
+
+:host-context(.dark-mode) .evento-card {
+  background: #2d3748;
+  box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+:host-context(.dark-mode) .evento-card h3 {
+  color: #ffffff;
+}
+
+:host-context(.dark-mode) .evento-card p {
+  color: #a0aec0;
+}
+
+:host-context(.dark-mode) .evento-estado,
+:host-context(.dark-mode) .evento-tipo {
+  background-color: #4a5568;
+  color: #e2e8f0;
+}
+
+:host-context(.dark-mode) .evento-descripcion,
+:host-context(.dark-mode) .evento-fechas {
+  color: #a0aec0;
+}
+
+:host-context(.dark-mode) .edit-button {
+  background: #2d3748;
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+:host-context(.dark-mode) .edit-button:hover {
+  background: #ffffff;
+  color: #2d3748;
+}
+
+:host-context(.dark-mode) .delete-button {
+  background: #2d3748;
+  color: #f56565;
+  border-color: #f56565;
+}
+
+:host-context(.dark-mode) .delete-button:hover {
+  background: #f56565;
+  color: #2d3748;
+}
+
+:host-context(.dark-mode) .modal-content {
+  background: #2d3748;
+  color: #ffffff;
+}
+
+:host-context(.dark-mode) .modal-header h3 {
+  color: #ffffff;
+}
+
+:host-context(.dark-mode) .modal-subtitle {
+  color: #a0aec0;
+}
+
+:host-context(.dark-mode) .form-group label {
+  color: #ffffff;
+}
+
+:host-context(.dark-mode) .form-group input,
+:host-context(.dark-mode) .form-group textarea,
+:host-context(.dark-mode) .form-group select {
+  background: #4a5568;
+  color: #ffffff;
+  border-color: #718096;
+}
+
+:host-context(.dark-mode) .form-group select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M10.293 3.293L6 7.586 1.707 3.293A1 1 0 00.293 4.707l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z'/%3E%3C/svg%3E");
+}
+
+:host-context(.dark-mode) .form-group input:focus,
+:host-context(.dark-mode) .form-group textarea:focus,
+:host-context(.dark-mode) .form-group select:focus {
+  border-color: #ffffff;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+:host-context(.dark-mode) .cancel-button {
+  background: #4a5568;
+  color: #ffffff;
+  border-color: #718096;
+}
+
+:host-context(.dark-mode) .save-button {
+  background: #ffffff;
+  color: #000000;
+}
+
+@media (max-width: 1200px) {
+  .eventos-grid {
+    grid-template-columns: repeat(auto-fill, minmax(calc(50% - 20px), 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .eventos-grid {
+    grid-template-columns: 1fr;
+  }
+}

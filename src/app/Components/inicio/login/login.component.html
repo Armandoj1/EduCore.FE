@@ -3,28 +3,27 @@
     <h2 class="stagger-item">Iniciar Sesión</h2>
     <form (ngSubmit)="onSubmit()" [@staggeredFade]>   
       <div class="input-group stagger-item">
-        <input type="text" id="usuario" [(ngModel)]="usuario" name="usuario" required placeholder="Usuario">
+        <input type="text" id="usuario" [(ngModel)]="usuario" name="usuario" required placeholder="Usuario" [disabled]="isLoading">
       </div>
       <div class="input-group stagger-item">
-        <input type="password" id="contrasena" [(ngModel)]="contrasena" name="contrasena" required placeholder="Contraseña">
+        <input type="password" id="contrasena" [(ngModel)]="contrasena" name="contrasena" required placeholder="Contraseña" [disabled]="isLoading">
       </div>
       <div class="remember-forgot stagger-item">
         <label>
-          <input type="checkbox" [(ngModel)]="rememberMe" name="rememberMe">
+          <input type="checkbox" [(ngModel)]="rememberMe" name="rememberMe" [disabled]="isLoading">
           <span>Recordarme</span>
         </label>
-        <a href="#">Olvidé la Contraseña</a>
+        <a href="#" [class.disabled]="isLoading">Olvidé la Contraseña</a>
       </div>
-      <button type="submit" class="stagger-item">Acceder</button>
+      <button type="submit" class="stagger-item" [disabled]="isLoading">
+        {{ isLoading ? 'Iniciando sesión...' : 'Acceder' }}
+      </button>
     </form>
     <div class="register stagger-item">
-      <p>¿No tienes una cuenta? <a href="#">Crear una</a></p>
+      <p>¿No tienes una cuenta? <a href="#" [class.disabled]="isLoading">Crear una</a></p>
     </div>
     <div *ngIf="errorMessage" class="error-message" [@fadeInOut]>
       {{ errorMessage }}
-    </div>
-    <div *ngIf="successMessage" class="success-message" [@fadeInOut]>
-      {{ successMessage }}
     </div>
   </div>
 </div>

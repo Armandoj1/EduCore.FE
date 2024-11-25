@@ -50,30 +50,34 @@ export class LoginComponent implements OnInit {
   rememberMe: boolean = false;
   errorMessage: string = '';
   successMessage: string = '';
+  isLoading: boolean = false;
 
   constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit() {}
 
   onSubmit() {
+    this.isLoading = true;
+    this.errorMessage = '';
+    this.successMessage = '';
+
     console.log('Enviando solicitud de inicio de sesión con datos:', { usuario: this.usuario, contrasena: this.contrasena });
 
     this.authService.verifyUser(this.usuario, this.contrasena).subscribe(
       (user: User | null) => {
+        this.isLoading = false;
         console.log('Respuesta recibida:', user);
 
         if (user) {
           console.log('Inicio de sesión exitoso', user);
           localStorage.setItem('currentUser', JSON.stringify({ ...user, usuario: this.usuario }));
-          this.successMessage = `Inicio de sesión exitoso. Bienvenido ${this.usuario}`;
-          setTimeout(() => {
-            this.router.navigate(['/inicio']);
-          }, 2000);
+          this.router.navigate(['/inicio']);
         } else {
           this.errorMessage = 'Usuario o contraseña inválidos';
         }
       },
       (error) => {
+        this.isLoading = false;
         console.error('Error de inicio de sesión', error);
         this.errorMessage = 'Ocurrió un error durante el inicio de sesión';
       }

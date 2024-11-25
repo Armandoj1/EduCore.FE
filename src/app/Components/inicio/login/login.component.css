@@ -315,3 +315,17 @@ button:hover::before {
   background-color: #ffffff;
 }
 
+.disabled {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+button:disabled::before {
+  display: none;
+}
+

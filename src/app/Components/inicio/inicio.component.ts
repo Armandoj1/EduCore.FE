@@ -1,6 +1,7 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
 import { AuthService, User } from '../../Services/auth.service';
 import { Router } from '@angular/router';
+import { SharedUserService } from '../../Services/shared-user.service';
 
 @Component({
   selector: 'app-inicio',
@@ -13,6 +14,7 @@ export class InicioComponent implements OnInit {
   isProfileMenuOpen: boolean = false;
   pageTitle: string = 'Inicio';
   userName: string = 'Usuario';
+  userRole: string = '';
   dropdowns: { [key: string]: boolean } = {
     estudiante: false,
     docente: false
@@ -20,13 +22,21 @@ export class InicioComponent implements OnInit {
   currentUser: User | null = null;
   showWelcomeMessage: boolean = false;
 
-  constructor(private renderer: Renderer2, private authService: AuthService, private router: Router) { }
+  constructor(
+    private renderer: Renderer2, 
+    private authService: AuthService, 
+    private router: Router,
+    private sharedUserService: SharedUserService
+  ) { }
   
   ngOnInit(): void {
     const storedUser = localStorage.getItem('currentUser');
     if (storedUser) {
       this.currentUser = JSON.parse(storedUser);
       this.userName = this.currentUser?.usuario || 'Usuario';
+      this.userRole = this.currentUser?.nombreRol || '';
+      this.sharedUserService.changeUserName(this.userName);
+      this.sharedUserService.changeUserRole(this.userRole);
       this.showWelcomeMessage = true;
       setTimeout(() => {
         this.showWelcomeMessage = false;
@@ -88,6 +98,18 @@ export class InicioComponent implements OnInit {
 
   closeWelcomeMessage(): void {
     this.showWelcomeMessage = false;
+  }
+
+  isDirectivo(): boolean {
+    return this.userRole === 'Directivo';
+  }
+
+  isDocente(): boolean {
+    return this.userRole === 'Docente';
+  }
+
+  isEstudiante(): boolean {
+    return this.userRole === 'Estudiante';
   }
 }
 

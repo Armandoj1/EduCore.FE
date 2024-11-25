@@ -1,5 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { EventosService } from '../../../Services/eventos.service';
+import { SharedUserService } from '../../../Services/shared-user.service';
+
+interface Evento {
+  titulo: string;
+  descripcion: string;
+  estado: string;
+  nombre: string;
+  fechaInicio: string;
+  fechaFin: string;
+}
 
 @Component({
   selector: 'app-bienvenida',
@@ -19,20 +30,75 @@ import { trigger, transition, style, animate } from '@angular/animations';
 })
 export class BienvenidaComponent implements OnInit {
   metricCards = [
-    { title: 'Total Estudiantes', value: '1,234', change: '+10% desde el último mes', icon: 'fas fa-users' },
-    { title: 'Asistencia Promedio', value: '92%', change: '+2% desde la última semana', icon: 'fas fa-clipboard-list' },
-    { title: 'Cursos Activos', value: '56', change: '+3 nuevos cursos este mes', icon: 'fas fa-graduation-cap' },
-    { title: 'Próximos Eventos', value: '7', change: 'En los próximos 30 días', icon: 'fas fa-calendar' },
+    { title: 'Total Estudiantes', value: '0', change: 'Cargando...', icon: 'fas fa-users' },
+    { title: 'Próximos Eventos', value: '0', change: 'Cargando...', icon: 'fas fa-calendar' },
   ];
 
-  recentActivity = [
-    { initials: 'MG', name: 'María González', action: 'subió calificaciones para Matemáticas 101', time: 'Hace 1h', color: 'bg-blue-100 text-blue-700' },
-    { initials: 'JP', name: 'Juan Pérez', action: 'actualizó el horario de Ciencias', time: 'Hace 2h', color: 'bg-green-100 text-green-700' },
-    { initials: 'AR', name: 'Ana Rodriguez', action: 'marcó asistencia para Historia Mundial', time: 'Hace 3h', color: 'bg-purple-100 text-purple-700' },
-    { initials: 'CS', name: 'Carlos Sánchez', action: 'creó un nuevo evento: Feria de Ciencias', time: 'Hace 4h', color: 'bg-orange-100 text-orange-700' },
-  ];
+  recentEvents: Evento[] = [];
 
-  constructor() { }
+  constructor(
+    private eventosService: EventosService,
+    private sharedUserService: SharedUserService
+  ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.loadStudentCount();
+    this.loadEvents();
+  }
+
+  loadStudentCount(): void {
+    this.eventosService.getNumeroEstudiantes().subscribe(
+      (response: any) => {
+        console.log('Respuesta de getNumeroEstudiantes:', response);
+        if (response && response.resultadoConsulta && Array.isArray(response.resultadoConsulta)) {
+          const studentCount = response.resultadoConsulta.length;
+          this.metricCards[0].value = studentCount.toString();
+          this.metricCards[0].change = `Total de estudiantes registrados`;
+        } else {
+          console.error('La respuesta de getNumeroEstudiantes no tiene la estructura esperada:', response);
+          this.metricCards[0].value = 'N/A';
+          this.metricCards[0].change = 'Datos no disponibles';
+        }
+      },
+      error => {
+        console.error('Error al cargar el número de estudiantes:', error);
+        this.metricCards[0].value = 'Error';
+        this.metricCards[0].change = 'No se pudo cargar la información';
+      }
+    );
+  }
+
+  loadEvents(): void {
+    this.sharedUserService.currentUserName.subscribe(userId => {
+      this.eventosService.getEventos(userId).subscribe(
+        (response: any) => {
+          console.log('Respuesta de getEventos:', response);
+          if (response && response.resultadoConsulta && Array.isArray(response.resultadoConsulta)) {
+            const eventos = response.resultadoConsulta;
+            this.recentEvents = eventos.map((evento: any) => ({
+              titulo: evento.titulo || 'Sin título',
+              descripcion: evento.descripcion || 'Sin descripción',
+              estado: evento.estado || 'Sin estado',
+              nombre: evento.nombre || 'Sin tipo',
+              fechaInicio: evento.fechaInicio || '',
+              fechaFin: evento.fechaFin || ''
+            }));
+            this.metricCards[1].value = eventos.length.toString();
+            this.metricCards[1].change = `Próximos eventos`;
+          } else {
+            console.error('La respuesta de getEventos no tiene la estructura esperada:', response);
+            this.recentEvents = [];
+            this.metricCards[1].value = 'N/A';
+            this.metricCards[1].change = 'Datos no disponibles';
+          }
+        },
+        error => {
+          console.error('Error al cargar los eventos:', error);
+          this.metricCards[1].value = 'Error';
+          this.metricCards[1].change = 'No se pudo cargar la información';
+        }
+      );
+    });
+  }
 }
+

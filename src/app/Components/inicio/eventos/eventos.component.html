@@ -1,0 +1,86 @@
+<div class="eventos-management">
+  <div class="header">
+    <div>
+      <h2 class="title">Gestión de Eventos</h2>
+      <p class="subtitle">Administra la información de los eventos</p>
+    </div>
+  </div>
+
+  <button *ngIf="canAddEvent()" class="add-button" (click)="openModal()">Agregar Evento</button>
+
+  <div class="eventos-grid">
+    <div class="evento-card" *ngFor="let evento of eventos" [@cardAnimation]>
+      <div class="card-header">
+        <h3>{{ evento.titulo }}</h3>
+        <span class="evento-estado">{{ evento.estado }}</span>
+      </div>
+      <p class="evento-descripcion">{{ evento.descripcion }}</p>
+      <div class="evento-info">
+        <span class="evento-tipo">{{ evento.nombre }}</span>
+        <div class="evento-fechas">
+          <p><strong>Inicio:</strong> {{ evento.fechaInicio | date:'short' }}</p>
+          <p><strong>Fin:</strong> {{ evento.fechaFin | date:'short' }}</p>
+        </div>
+      </div>
+      <div class="card-actions" *ngIf="evento.canEditDelete">
+        <button class="edit-button" (click)="openModal(evento)">Editar</button>
+        <button class="delete-button" (click)="deleteEvento(evento.eventoID)">Eliminar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" *ngIf="showModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>{{ isEditing ? 'Editar' : 'Agregar' }} Evento</h3>
+        <button class="close-button" (click)="closeModal()">×</button>
+      </div>
+      <p class="modal-subtitle">{{ isEditing ? 'Modifique' : 'Ingrese' }} los datos del evento aquí.</p>
+      <form (ngSubmit)="saveEvento()">
+        <div class="form-group">
+          <label for="titulo">Título</label>
+          <input id="titulo" type="text" [(ngModel)]="currentEvento.titulo" name="titulo" required>
+        </div>
+        <div class="form-group">
+          <label for="descripcion">Descripción</label>
+          <textarea id="descripcion" [(ngModel)]="currentEvento.descripcion" name="descripcion" required></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fechaInicio">Fecha de Inicio</label>
+            <input id="fechaInicio" type="datetime-local" [(ngModel)]="currentEvento.fechaInicio" name="fechaInicio" required>
+          </div>
+          <div class="form-group">
+            <label for="fechaFin">Fecha de Fin</label>
+            <input id="fechaFin" type="datetime-local" [(ngModel)]="currentEvento.fechaFin" name="fechaFin" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="tipoEvento">Tipo de Evento</label>
+            <select id="tipoEvento" [(ngModel)]="currentEvento.tipoEventoId" name="tipoEvento" required>
+              <option [ngValue]="null" disabled>Seleccione un tipo de evento</option>
+              <option *ngFor="let tipo of tiposEventos" [ngValue]="tipo.tipoEventoID">
+                {{ tipo.nombre }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="gradoID">Grado</label>
+            <select id="gradoID" [(ngModel)]="currentEvento.gradoID" name="gradoID" required>
+              <option [ngValue]="null" disabled>Seleccione un grado</option>
+              <option *ngFor="let grado of grados" [ngValue]="grado.gradoID">
+                {{ grado.nombreGrado }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="cancel-button" (click)="closeModal()">Cancelar</button>
+          <button type="submit" class="save-button">{{ isEditing ? 'Actualizar' : 'Guardar' }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+

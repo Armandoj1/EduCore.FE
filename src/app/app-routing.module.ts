@@ -10,6 +10,7 @@ import { GestionGradosComponent } from './Components/inicio/gestion-grados/gesti
 import { GestionMateriasComponent } from './Components/inicio/gestion-materias/gestion-materias.component';
 import { EspecialidadesComponent } from './Components/inicio/especialidades/especialidades.component';
 import { GradosEstudiantesComponent } from './Components/inicio/grados-estudiantes/grados-estudiantes.component';
+import { EventosComponent } from './Components/inicio/eventos/eventos.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -24,7 +25,8 @@ const routes: Routes = [
       { path: 'Grados', component: GestionGradosComponent },
       { path: 'Materias', component: GestionMateriasComponent },
       { path: 'Especialidades', component: EspecialidadesComponent},
-      { path: 'GradosEstudiantes', component: GradosEstudiantesComponent}
+      { path: 'GradosEstudiantes', component: GradosEstudiantesComponent},
+      { path: 'Eventos', component: EventosComponent}
     ]
   }
 ];
