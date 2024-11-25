@@ -1,0 +1,244 @@
+.materia-management {
+    padding: 24px;
+    background: #ffffff;
+    min-height: 100vh;
+    font-family: system-ui, -apple-system, sans-serif;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .materia-management::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #ff00ff, #00ff00, #ff00ff, #00ff00);
+    z-index: -1;
+    filter: blur(10px);
+    background-size: 400% 400%;
+    animation: glowing 15s ease infinite;
+  }
+  
+  @keyframes glowing {
+    0% {
+      background-position: 0 0;
+    }
+    50% {
+      background-position: 400% 0;
+    }
+    100% {
+      background-position: 0 0;
+    }
+  }
+  
+  .title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #000000;
+    margin: 0 0 8px 0;
+  }
+  
+  .subtitle {
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+  
+  .form-container {
+    margin-bottom: 24px;
+  }
+  
+  .form-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+  }
+  
+  .form-group {
+    flex: 0 0 200px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group label {
+    font-size: 14px;
+    color: #18181b;
+    margin-bottom: 6px;
+  }
+  
+  .combobox {
+    position: relative;
+  }
+  
+  .combobox input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #e4e4e7;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  
+  .dropdown-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border: 1px solid #e4e4e7;
+    border-radius: 0 0 6px 6px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 10;
+  }
+  
+  .dropdown-item {
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  
+  .dropdown-item:hover {
+    background: #f4f4f5;
+  }
+  
+  .consultar-button {
+    background: #000000;
+    color: #ffffff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .consultar-button:hover {
+    background: #333333;
+  }
+  
+  .card {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 24px;
+  }
+  
+  .card-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #000000;
+    margin: 0 0 16px 0;
+  }
+  
+  .table-container {
+    width: 100%;
+    overflow-x: auto;
+  }
+  
+  .notas-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  
+  .notas-table th {
+    background: #f4f4f5;
+    color: #18181b;
+    font-weight: 500;
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 1px solid #e4e4e7;
+  }
+  
+  .notas-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #e4e4e7;
+    color: #18181b;
+  }
+  
+  /* Dark mode styles */
+  :host-context(.dark-mode) .materia-management {
+    background-color: #1a1a1a;
+    box-shadow: 0 0 10px rgba(255,255,255,0.1);
+    color: #f0f0f0;
+  }
+  
+  :host-context(.dark-mode) .materia-management::before {
+    background: linear-gradient(45deg, #ff00ff, #00ff00, #0000ff, #ff00ff);
+    opacity: 0.3;
+  }
+  
+  :host-context(.dark-mode) .title {
+    color: #ffffff;
+  }
+  
+  :host-context(.dark-mode) .subtitle {
+    color: #aaaaaa;
+  }
+  
+  :host-context(.dark-mode) .combobox input {
+    background-color: #2a2a2a;
+    border-color: #555555;
+    color: #ffffff;
+  }
+  
+  :host-context(.dark-mode) .dropdown-list {
+    background: #2a2a2a;
+    border-color: #555555;
+  }
+  
+  :host-context(.dark-mode) .dropdown-item:hover {
+    background: #3a3a3a;
+  }
+  
+  :host-context(.dark-mode) .consultar-button {
+    background: #ffffff;
+    color: #000000;
+  }
+  
+  :host-context(.dark-mode) .consultar-button:hover {
+    background: #cccccc;
+  }
+  
+  :host-context(.dark-mode) .card {
+    background-color: #2a2a2a;
+    box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
+  }
+  
+  :host-context(.dark-mode) .card-title {
+    color: #ffffff;
+  }
+  
+  :host-context(.dark-mode) .notas-table th {
+    background: #3a3a3a;
+    color: #ffffff;
+    border-color: #555555;
+  }
+  
+  :host-context(.dark-mode) .notas-table td {
+    color: #ffffff;
+    border-color: #555555;
+  }
+  
+  .error-message {
+    background-color: #fee2e2;
+    border: 1px solid #f87171;
+    color: #b91c1c;
+    padding: 12px;
+    border-radius: 6px;
+    margin-top: 16px;
+    font-size: 14px;
+    text-align: center;
+  }
+  
+  :host-context(.dark-mode) .error-message {
+    background-color: #7f1d1d;
+    border-color: #b91c1c;
+    color: #fecaca;
+  }
+  
+  

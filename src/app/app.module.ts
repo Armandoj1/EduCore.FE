@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { InicioComponent } from './Components/inicio/inicio.component';
 import { BienvenidaComponent } from './Components/inicio/bienvenida/bienvenida.component';
 import { LoginComponent } from './Components/inicio/login/login.component';
-import { RegisterComponent } from './Components/inicio/register/register.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HttpClientModule } from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
@@ -21,6 +20,9 @@ import { EspecialidadesComponent } from './Components/inicio/especialidades/espe
 import { GradosEstudiantesComponent } from './Components/inicio/grados-estudiantes/grados-estudiantes.component';
 import { GestionEstudianteComponent } from './Components/inicio/gestion-estudiante/gestion-estudiante.component';
 import { EventosComponent } from './Components/inicio/eventos/eventos.component';
+import { ConsultarNotasComponent } from './Components/inicio/consultar-notas/consultar-notas.component';
+import { MisNotasComponent } from './Components/inicio/mis-notas/mis-notas.component';
+import { RegistrarNotasComponent } from './Components/inicio/registrar-notas/registrar-notas.component';
 
 
 
@@ -30,7 +32,6 @@ import { EventosComponent } from './Components/inicio/eventos/eventos.component'
     InicioComponent,
     BienvenidaComponent,
     LoginComponent,
-    RegisterComponent,
     NotasComponent,
     GestionEstudianteComponent,
     GradosEstudiantesComponent,
@@ -41,7 +42,10 @@ import { EventosComponent } from './Components/inicio/eventos/eventos.component'
     ModelsModel,
     EspecialidadesComponent,
     GradosEstudiantesComponent,
-    EventosComponent
+    EventosComponent,
+    ConsultarNotasComponent,
+    MisNotasComponent,
+    RegistrarNotasComponent
   ],
   imports: [
     BrowserAnimationsModule,

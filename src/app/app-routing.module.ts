@@ -11,6 +11,9 @@ import { GestionMateriasComponent } from './Components/inicio/gestion-materias/g
 import { EspecialidadesComponent } from './Components/inicio/especialidades/especialidades.component';
 import { GradosEstudiantesComponent } from './Components/inicio/grados-estudiantes/grados-estudiantes.component';
 import { EventosComponent } from './Components/inicio/eventos/eventos.component';
+import { ConsultarNotasComponent } from './Components/inicio/consultar-notas/consultar-notas.component';
+import { MisNotasComponent } from './Components/inicio/mis-notas/mis-notas.component';
+import { RegistrarNotasComponent } from './Components/inicio/registrar-notas/registrar-notas.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -26,7 +29,10 @@ const routes: Routes = [
       { path: 'Materias', component: GestionMateriasComponent },
       { path: 'Especialidades', component: EspecialidadesComponent},
       { path: 'GradosEstudiantes', component: GradosEstudiantesComponent},
-      { path: 'Eventos', component: EventosComponent}
+      { path: 'Eventos', component: EventosComponent},
+      { path: 'ConsultarNotas', component: ConsultarNotasComponent},
+      { path: 'MisNotas', component: MisNotasComponent},
+      { path: 'RegistrarNotas', component: RegistrarNotasComponent}
     ]
   }
 ];

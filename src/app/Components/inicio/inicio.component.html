@@ -55,11 +55,23 @@
       <!-- Opciones para Docente -->
       <ng-container *ngIf="isDocente()">
         <!-- Aquí puedes agregar opciones específicas para Docentes en el futuro -->
+        <a [routerLink]="['/inicio/ConsultarNotas']" routerLinkActive="active" (click)="setPageTitle('Ver notas')">
+          <span class="icon-circle"><i class="fas fa-clipboard-list"></i></span>
+          <span class="icon-text">Ver calificaciones</span>
+        </a>
+        <a [routerLink]="['/inicio/RegistrarNotas']" routerLinkActive="active" (click)="setPageTitle('Ver notas')">
+          <span class="icon-circle"><i class="fas fa-clipboard-list"></i></span>
+          <span class="icon-text">Registrar notas</span>
+        </a>
       </ng-container>
 
       <!-- Opciones para Estudiante -->
       <ng-container *ngIf="isEstudiante()">
         <!-- Aquí puedes agregar opciones específicas para Estudiantes en el futuro -->
+        <a [routerLink]="['/inicio/MisNotas']" routerLinkActive="active" (click)="setPageTitle('Ver notas')">
+          <span class="icon-circle"><i class="fas fa-clipboard-list"></i></span>
+          <span class="icon-text">Mis notas</span>
+        </a>
       </ng-container>
     </nav>
     <div class="dark-mode-toggle">

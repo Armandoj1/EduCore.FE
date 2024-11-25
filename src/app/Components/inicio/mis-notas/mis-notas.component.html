@@ -1,0 +1,38 @@
+<div class="materia-management" [@fadeInOut]>
+    <div class="header">
+      <h2 class="title" [@slideInFromTop]>Mis Notas</h2>
+      <p class="subtitle">Consulta tus calificaciones en todas las materias</p>
+    </div>
+  
+    <div class="card notas-card" *ngIf="notas.length > 0 && !errorMessage" [@slideInFromBottom]>
+      <h3 class="card-title">Calificaciones</h3>
+      <div class="table-container">
+        <table class="notas-table">
+          <thead>
+            <tr>
+              <th>Materia</th>
+              <th>Período 1</th>
+              <th>Período 2</th>
+              <th>Período 3</th>
+              <th>Período 4</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let nota of notas; let i = index" [@fadeIn]="i">
+              <td>{{ nota.nombreMateria }}</td>
+              <td>{{ nota.periodo1 }}</td>
+              <td>{{ nota.periodo2 }}</td>
+              <td>{{ nota.periodo3 }}</td>
+              <td>{{ nota.periodo4 }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  
+    <div *ngIf="errorMessage" class="error-message" [@fadeInOut]>
+      {{ errorMessage }}
+    </div>
+  </div>
+  
+  
