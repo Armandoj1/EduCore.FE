@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService, User } from '../../../Services/auth.service';
+import { SharedUserService } from '../../../Services/shared-user.service';
 import { trigger, transition, style, animate, query, stagger, keyframes } from '@angular/animations';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  animations: [
+  animations:  [
     trigger('fadeInOut', [
       transition(':enter', [
         style({ opacity: 0 }),
@@ -44,6 +45,7 @@ import { trigger, transition, style, animate, query, stagger, keyframes } from '
     ]),
   ],
 })
+
 export class LoginComponent implements OnInit {
   usuario: string = '';
   contrasena: string = '';
@@ -52,7 +54,11 @@ export class LoginComponent implements OnInit {
   successMessage: string = '';
   isLoading: boolean = false;
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(
+    private router: Router, 
+    private authService: AuthService,
+    private sharedUserService: SharedUserService
+  ) {}
 
   ngOnInit() {}
 
@@ -70,8 +76,11 @@ export class LoginComponent implements OnInit {
 
         if (user) {
           console.log('Inicio de sesión exitoso', user);
-          localStorage.setItem('currentUser', JSON.stringify({ ...user, usuario: this.usuario }));
+          localStorage.setItem('currentUser', JSON.stringify(user));
           this.router.navigate(['/inicio']);
+
+          // Mostrar todos los datos del usuario capturados
+          console.log('Datos completos del usuario:', this.sharedUserService.getUserData());
         } else {
           this.errorMessage = 'Usuario o contraseña inválidos';
         }

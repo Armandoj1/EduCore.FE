@@ -117,6 +117,17 @@ export class EventosComponent implements OnInit, OnDestroy {
 
   loadEventos(): Observable<any> {
     return this.eventosService.getEventos(this.userId).pipe(
+      tap(response => {
+        if (response && response.resultadoConsulta) {
+          this.eventos = (response.resultadoConsulta || []).map((evento: Evento) => ({
+            ...evento,
+            canEditDelete: evento.usuarioCreadorID === this.userId
+          }));
+          this.logEventosLoaded();
+        } else {
+          this.eventos = [];
+        }
+      }),
       catchError(error => {
         console.error('Error al cargar eventos:', error);
         return of(null);
@@ -167,6 +178,9 @@ export class EventosComponent implements OnInit, OnDestroy {
         gradoID: evento.gradoID
       };
       delete this.currentEvento.canEditDelete;
+      console.log('Evento a editar:', JSON.stringify(this.currentEvento, null, 2));
+      console.log('Tipo de evento ID:', this.currentEvento.tipoEventoId);
+      console.log('Grado ID:', this.currentEvento.gradoID);
     } else {
       this.currentEvento = {
         titulo: '',
@@ -178,7 +192,7 @@ export class EventosComponent implements OnInit, OnDestroy {
         gradoID: null
       };
     }
-    console.log('Evento actual al abrir modal:', this.currentEvento);
+    console.log('Evento actual al abrir modal:', JSON.stringify(this.currentEvento, null, 2));
   }
 
   closeModal(): void {
@@ -200,7 +214,16 @@ export class EventosComponent implements OnInit, OnDestroy {
         console.error('No tienes permiso para editar este evento');
         return;
       }
-      let eventoToSave = { ...this.currentEvento, nombreRol: this.userRole };
+      let eventoToSave = { ...this.currentEvento, nombreRol: this.userRole, tipoEventoId: this.currentEvento.tipoEventoId || undefined };
+      
+      if (eventoToSave.gradoID === null) {
+        delete eventoToSave.gradoID;
+      }
+      
+      if (eventoToSave.tipoEventoId === undefined) {
+        delete eventoToSave.tipoEventoId;
+      }
+      
       console.log('Datos enviados para actualizar:', JSON.stringify(eventoToSave, null, 2));
       this.eventosService.actualizarEvento(eventoToSave).subscribe(
         (response) => {
@@ -220,8 +243,18 @@ export class EventosComponent implements OnInit, OnDestroy {
       let eventoToSave = { 
         ...this.currentEvento, 
         usuarioCreadorID: this.userId,
-        nombreRol: this.userRole
+        nombreRol: this.userRole,
+        tipoEventoId: this.currentEvento.tipoEventoId || undefined
       };
+      
+      if (eventoToSave.gradoID === null) {
+        delete eventoToSave.gradoID;
+      }
+      
+      if (eventoToSave.tipoEventoId === undefined) {
+        delete eventoToSave.tipoEventoId;
+      }
+      
       console.log('Datos enviados para insertar:', JSON.stringify(eventoToSave, null, 2));
       this.eventosService.insertarEvento(eventoToSave).subscribe(
         (response) => {
@@ -252,6 +285,13 @@ export class EventosComponent implements OnInit, OnDestroy {
         error => console.error('Error al eliminar evento:', error)
       );
     }
+  }
+
+  private logEventosLoaded(): void {
+    console.log('Eventos cargados:', JSON.stringify(this.eventos, null, 2));
+    this.eventos.forEach(evento => {
+      console.log(`Evento ID: ${evento.eventoID}, Tipo Evento ID: ${evento.tipoEventoId}, Grado ID: ${evento.gradoID}`);
+    });
   }
 }
 

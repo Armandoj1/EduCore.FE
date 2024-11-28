@@ -59,16 +59,16 @@
           <div class="form-group">
             <label for="tipoEvento">Tipo de Evento</label>
             <select id="tipoEvento" [(ngModel)]="currentEvento.tipoEventoId" name="tipoEvento" required>
-              <option [ngValue]="null" disabled>Seleccione un tipo de evento</option>
+              <option [ngValue]="undefined" disabled>Seleccione un tipo de evento</option>
               <option *ngFor="let tipo of tiposEventos" [ngValue]="tipo.tipoEventoID">
                 {{ tipo.nombre }}
               </option>
             </select>
-          </div>
+          </div>              
           <div class="form-group">
             <label for="gradoID">Grado</label>
-            <select id="gradoID" [(ngModel)]="currentEvento.gradoID" name="gradoID" required>
-              <option [ngValue]="null" disabled>Seleccione un grado</option>
+            <select id="gradoID" [(ngModel)]="currentEvento.gradoID" name="gradoID">
+              <option [ngValue]="null">Seleccione un grado (opcional)</option>
               <option *ngFor="let grado of grados" [ngValue]="grado.gradoID">
                 {{ grado.nombreGrado }}
               </option>

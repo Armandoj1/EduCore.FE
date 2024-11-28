@@ -10,6 +10,14 @@ export interface User {
   contrasena: string;
   role: string;
   nombreRol: string;
+  // Nuevos campos añadidos
+  cc?: string;
+  nombreCompleto?: string;
+  fechaNacimiento?: string;
+  direccion?: string;
+  telefono?: string;
+  edad?: number;
+  correo?: string;
 }
 
 @Injectable({
@@ -45,11 +53,19 @@ export class AuthService {
           if (userData && userData.usuario === usuario && userData.contrasena === contrasena) {
             console.log('Datos del usuario encontrados:', JSON.stringify(userData));
             const user: User = {
-              id: parseInt(userData.usuario), // Asumiendo que el ID es el mismo que el usuario
+              id: parseInt(userData.usuario),
               usuario: userData.usuario,
               contrasena: userData.contrasena,
               role: userData.nombreRol,
-              nombreRol: userData.nombreRol
+              nombreRol: userData.nombreRol,
+              // Nuevos campos añadidos
+              cc: userData.cc,
+              nombreCompleto: userData.nombreCompleto,
+              fechaNacimiento: userData.fechaNacimiento,
+              direccion: userData.direccion,
+              telefono: userData.telefono,
+              edad: userData.edad,
+              correo: userData.correo
             };
             console.log('Usuario procesado:', JSON.stringify(user));
             localStorage.setItem('currentUser', JSON.stringify(user));

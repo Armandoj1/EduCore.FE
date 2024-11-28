@@ -38,6 +38,10 @@ export class ConsultarNotasService {
     return this.http.get<ApiResponse>(`${this.apiUrl}/ConsultarNotasGrados`, { params: { GradoID: gradoID.toString(), MateriaID: materiaID || '' } });
   }
 
+  consultarNotasGradosID(gradoID: number = 0, materiaID?: string): Observable<ApiResponse> {
+    return this.http.get<ApiResponse>(`${this.apiUrl}/ConsultarNotasGradosID`, { params: { GradoID: gradoID.toString(), MateriaID: materiaID || '' } });
+  }
+
   consultarGradosDocentes(docenteCC?: string): Observable<ApiResponse> {
     console.log('Consultando grados para el docente:', docenteCC);
     return this.http.get<ApiResponse>(`${this.apiUrl}/ConsultarGradosDocentes`, { params: { DocenteCC: docenteCC || '' } });

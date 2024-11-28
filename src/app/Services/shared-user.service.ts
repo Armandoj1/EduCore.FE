@@ -6,6 +6,14 @@ export interface User {
   usuario: string;
   role: string;
   nombreRol: string;
+  // Nuevos campos añadidos
+  cc?: string;
+  nombreCompleto?: string;
+  fechaNacimiento?: string;
+  direccion?: string;
+  telefono?: string;
+  edad?: number;
+  correo?: string;
 }
 
 @Injectable({
@@ -17,6 +25,9 @@ export class SharedUserService {
 
   private userIdSource = new BehaviorSubject<string>('');
   currentUserId = this.userIdSource.asObservable();
+
+  private periodoVigenteSource = new BehaviorSubject<number | null>(null);
+  currentPeriodoVigente = this.periodoVigenteSource.asObservable();
 
   private userRoleSource = new BehaviorSubject<string>('');
   currentUserRole = this.userRoleSource.asObservable();
@@ -59,4 +70,22 @@ export class SharedUserService {
     this.changeUserId('');
     this.changeUserRole('');
   }
+
+  getUserData(): User | null {
+    return this.userDataSource.getValue();
+  }
+
+  setPeriodoVigente(periodoId: number) {
+    console.log('Estableciendo período vigente:', periodoId);
+    this.periodoVigenteSource.next(periodoId);
+    localStorage.setItem('periodoVigente', periodoId.toString());
+  }
+
+  getPeriodoVigente(): number | null {
+    const savedPeriodo = localStorage.getItem('periodoVigente');
+    return savedPeriodo ? parseInt(savedPeriodo, 10) : null;
+  }
+
+
 }
+

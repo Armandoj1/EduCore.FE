@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ConsultarNotasService, ApiResponse } from '../../../Services/ConsultarNotas/consultar-notas.service';
 import { SharedUserService, User } from '../../../Services/shared-user.service';
 import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
+import { RegistrarNotasService, Nota as NotaServicio } from '../../../Services/registrarNotas/registrar-notas.service';
+import { NotasService, PeriodoVigente } from '../../../Services/ControlPeriodos/notas.service';
 
 interface MateriaItem {
   materiaID: string;
@@ -13,7 +15,8 @@ interface GradoItem {
   nombre: string;
 }
 
-interface Nota {
+interface NotaComponente {
+  cc: string;
   nombreEstudiante: string;
   nota1: number;
   nota2: number;
@@ -71,6 +74,7 @@ interface Nota {
     ]),
   ],
 })
+
 export class RegistrarNotasComponent implements OnInit {
   materiasList: MateriaItem[] = [];
   gradosList: GradoItem[] = [];
@@ -82,22 +86,29 @@ export class RegistrarNotasComponent implements OnInit {
   };
   selectedMateria: MateriaItem | null = null;
   selectedGrado: GradoItem | null = null;
-  notas: Nota[] = [];
+  notas: NotaComponente[] = [];
+  notasOriginales: NotaComponente[] = [];
   currentUser: User | null = null;
   errorMessage: string | null = null;
+  periodoVigente: PeriodoVigente | null = null;
 
   constructor(
     private consultarNotasService: ConsultarNotasService,
-    private sharedUserService: SharedUserService
+    private sharedUserService: SharedUserService,
+    private registrarNotasService: RegistrarNotasService,
+    private notasService: NotasService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
+    console.log('Iniciando componente...');
     this.sharedUserService.currentUserData.subscribe(user => {
       this.currentUser = user;
       if (user) {
         console.log('Usuario actual:', user);
         this.loadGradosDocentes(user.usuario);
         this.loadMateriasDocentes(user.usuario);
+        this.loadPeriodoVigente();
       }
     });
   }
@@ -132,6 +143,24 @@ export class RegistrarNotasComponent implements OnInit {
     );
   }
 
+  loadPeriodoVigente(): void {
+    console.log('Iniciando carga de periodo vigente...');
+    this.notasService.consultarPeriodoVigente({}).subscribe({
+      next: (periodoVigente: PeriodoVigente) => {
+        console.log('Datos recibidos del servicio:', periodoVigente);
+        this.periodoVigente = periodoVigente;
+        console.log('Periodo vigente establecido:', this.periodoVigente);
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error('Error al consultar periodo vigente:', error);
+        this.errorMessage = "No se pudo cargar el periodo vigente. Por favor, intente de nuevo más tarde.";
+        this.periodoVigente = null;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
   toggleDropdown(type: 'MateriaID' | 'GradoID'): void {
     this.dropdowns[type] = !this.dropdowns[type];
   }
@@ -162,11 +191,18 @@ export class RegistrarNotasComponent implements OnInit {
   consultarNotas(): void {
     if (this.selectedGrado && this.selectedMateria) {
       console.log('Consultando notas para:', this.selectedGrado, this.selectedMateria);
-      this.consultarNotasService.consultarNotasGrados(this.selectedGrado.id, this.selectedMateria.materiaID).subscribe(
+      this.consultarNotasService.consultarNotasGradosID(this.selectedGrado.id, this.selectedMateria.materiaID).subscribe(
         (response: ApiResponse) => {
           console.log('Respuesta de notas:', response);
           if (response && response.resultadoConsulta) {
-            this.notas = response.resultadoConsulta as Nota[];
+            this.notas = response.resultadoConsulta.map(nota => ({
+              ...nota,
+              nota1: Number(nota.nota1) || 0,
+              nota2: Number(nota.nota2) || 0,
+              nota3: Number(nota.nota3) || 0,
+              nota4: Number(nota.nota4) || 0
+            }));
+            this.notasOriginales = JSON.parse(JSON.stringify(this.notas));
             console.log('Notas consultadas:', this.notas);
             if (this.notas.length === 0) {
               this.errorMessage = "¡La materia no está asignada al grado, no se mostrarán las calificaciones!";
@@ -184,4 +220,71 @@ export class RegistrarNotasComponent implements OnInit {
       alert('Por favor, seleccione un grado y una materia.');
     }
   }
+
+  isNotaEditable(periodoID: number): boolean {
+    if (!this.periodoVigente || this.periodoVigente.periodoVigenteID === undefined) {
+      console.warn('Periodo vigente no disponible o inválido');
+      return false;
+    }
+    return periodoID === this.periodoVigente.periodoVigenteID;
+  }
+
+  registrarNotas(): void {
+    if (!this.selectedMateria) {
+      console.error('No se ha seleccionado una materia');
+      return;
+    }
+
+    const notasModificadas: NotaServicio[] = [];
+
+    this.notas.forEach((notaActual, index) => {
+      const notaOriginal = this.notasOriginales[index];
+
+      [1, 2, 3, 4].forEach(periodoID => {
+        const notaKey = `nota${periodoID}` as keyof NotaComponente;
+        const valorOriginal = Number(notaOriginal[notaKey]) || 0;
+        const valorActual = Number(notaActual[notaKey]) || 0;
+
+        if (valorActual !== valorOriginal && this.isNotaEditable(periodoID)) {
+          const notaModificada: NotaServicio = {
+            estudianteCC: notaActual.cc,
+            materiaID: this.selectedMateria!.materiaID,
+            periodoID: periodoID,
+            notaValor: valorActual
+          };
+          notasModificadas.push(notaModificada);
+          console.log(`Nota modificada - Estudiante: ${notaActual.cc}, Período: ${periodoID}, Valor Original: ${valorOriginal}, Valor Nuevo: ${valorActual}`);
+        }
+      });
+    });
+
+    console.log('Notas a registrar:', notasModificadas);
+
+    if (notasModificadas.length === 0) {
+      console.log('No hay notas para registrar');
+      return;
+    }
+
+    notasModificadas.forEach(nota => {
+      const notaOriginal = Number(this.notasOriginales.find(n => n.cc === nota.estudianteCC)?.[`nota${nota.periodoID}` as keyof NotaComponente]) || 0;
+
+      if (notaOriginal === 0) {
+        console.log('Insertando nota:', nota);
+        this.registrarNotasService.insertarNota(nota).subscribe({
+          next: response => console.log('Nota insertada:', response),
+          error: error => console.error('Error al insertar nota:', error)
+        });
+      } else {
+        console.log('Actualizando nota:', nota);
+        this.registrarNotasService.actualizarNota(nota).subscribe({
+          next: response => console.log('Nota actualizada:', response),
+          error: error => console.error('Error al actualizar nota:', error)
+        });
+      }
+    });
+
+    // Actualizamos las notas originales después de guardar
+    this.notasOriginales = JSON.parse(JSON.stringify(this.notas));
+  }
 }
+

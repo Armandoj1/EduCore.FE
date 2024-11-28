@@ -48,13 +48,12 @@
         </a>
         <a [routerLink]="['/inicio/Notas']" routerLinkActive="active" (click)="setPageTitle('Notas')">
           <span class="icon-circle"><i class="fas fa-clipboard-list"></i></span>
-          <span class="icon-text">Notas</span>
+          <span class="icon-text">Habilitar periodos</span>
         </a>
       </ng-container>
 
       <!-- Opciones para Docente -->
       <ng-container *ngIf="isDocente()">
-        <!-- Aquí puedes agregar opciones específicas para Docentes en el futuro -->
         <a [routerLink]="['/inicio/ConsultarNotas']" routerLinkActive="active" (click)="setPageTitle('Ver notas')">
           <span class="icon-circle"><i class="fas fa-clipboard-list"></i></span>
           <span class="icon-text">Ver calificaciones</span>
@@ -67,7 +66,6 @@
 
       <!-- Opciones para Estudiante -->
       <ng-container *ngIf="isEstudiante()">
-        <!-- Aquí puedes agregar opciones específicas para Estudiantes en el futuro -->
         <a [routerLink]="['/inicio/MisNotas']" routerLinkActive="active" (click)="setPageTitle('Ver notas')">
           <span class="icon-circle"><i class="fas fa-clipboard-list"></i></span>
           <span class="icon-text">Mis notas</span>
@@ -114,14 +112,86 @@
     </header>
     <div class="content">
       <router-outlet></router-outlet>
+
+      <!-- Edit Profile Popup -->
+      <div *ngIf="isEditProfileOpen" class="edit-profile-overlay">
+        <div class="edit-profile-popup">
+          <h2>Editar Perfil</h2>
+          <p class="edit-profile-description">Aquí puedes editar tu información personal. Asegúrate de mantener tus datos actualizados.</p>
+          <form (ngSubmit)="updateProfile()" class="edit-profile-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="cc">CC:</label>
+                <input type="text" id="cc" [(ngModel)]="editProfileData.cc" name="cc" disabled>
+              </div>
+              <div class="form-group">
+                <label for="nombreCompleto">Nombre Completo:</label>
+                <input type="text" id="nombreCompleto" [(ngModel)]="editProfileData.nombreCompleto" name="nombreCompleto">
+              </div>
+              <div class="form-group">
+                <label for="correo">Correo:</label>
+                <input type="email" id="correo" [(ngModel)]="editProfileData.correo" name="correo">
+              </div>
+              <div class="form-group">
+                <label for="telefono">Teléfono:</label>
+                <input type="tel" id="telefono" [(ngModel)]="editProfileData.telefono" name="telefono">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="direccion">Dirección:</label>
+                <input type="text" id="direccion" [(ngModel)]="editProfileData.direccion" name="direccion">
+              </div>
+              <div class="form-group">
+                <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+                <input type="date" id="fechaNacimiento" [(ngModel)]="editProfileData.fechaNacimiento" name="fechaNacimiento">
+              </div>
+              <div class="form-group">
+                <label for="edad">Edad:</label>
+                <input type="number" id="edad" [(ngModel)]="editProfileData.edad" name="edad" disabled>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn-primary">Actualizar Información</button>
+              <button type="button" class="btn-secondary" (click)="cancelEditProfile()">Cancelar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Change Password Popup -->
+      <div *ngIf="isChangePasswordOpen" class="edit-profile-overlay">
+        <div class="edit-profile-popup">
+          <h2>Cambiar Contraseña</h2>
+          <p class="edit-profile-description">Ingresa tu contraseña actual y la nueva contraseña para actualizarla.</p>
+          <form (ngSubmit)="updatePassword()" class="edit-profile-form">
+            <div class="form-group">
+              <label for="currentPassword">Contraseña Actual:</label>
+              <input type="password" id="currentPassword" [(ngModel)]="changePasswordData.currentPassword" name="currentPassword" required>
+            </div>
+            <div class="form-group">
+              <label for="newPassword">Nueva Contraseña:</label>
+              <input type="password" id="newPassword" [(ngModel)]="changePasswordData.newPassword" name="newPassword" required>
+            </div>
+            <div class="form-group">
+              <label for="confirmPassword">Confirmar Nueva Contraseña:</label>
+              <input type="password" id="confirmPassword" [(ngModel)]="changePasswordData.confirmPassword" name="confirmPassword" required>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn-primary">Cambiar Contraseña</button>
+              <button type="button" class="btn-secondary" (click)="cancelChangePassword()">Cancelar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div *ngIf="showWelcomeMessage" class="welcome-message">
+        <div class="welcome-content">
+          <h2>Bienvenido, {{ userName }}!</h2>
+          <p>Has iniciado sesión exitosamente.</p>
+          <button (click)="closeWelcomeMessage()">Cerrar</button>
+        </div>
+      </div>
     </div>
   </main>
-
-  <div *ngIf="showWelcomeMessage" class="welcome-message">
-    <div class="welcome-content">
-      <h2>Bienvenido, {{ userName }}!</h2>
-      <p>Has iniciado sesión exitosamente.</p>
-      <button (click)="closeWelcomeMessage()">Cerrar</button>
-    </div>
-  </div>
 </div>

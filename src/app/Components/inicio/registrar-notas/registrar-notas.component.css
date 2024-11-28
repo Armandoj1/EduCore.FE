@@ -240,3 +240,140 @@
     border-color: #b91c1c;
     color: #fecaca;
   }
+
+  /* Añadir al final del archivo registrar-notas.component.css */
+
+.notas-card {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-top: 24px;
+}
+
+.notas-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.notas-table th {
+  background: #f4f4f5;
+  color: #18181b;
+  font-weight: 500;
+  text-align: left;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e4e4e7;
+}
+
+.notas-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #e4e4e7;
+  color: #18181b;
+}
+
+.notas-table input[type="number"] {
+  width: 60px;
+  padding: 8px;
+  border: 1px solid #e4e4e7;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.registrar-button {
+  background: #000000;
+  color: #ffffff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 16px;
+}
+
+.registrar-button:hover {
+  background: #333333;
+}
+
+/* Estilos para modo oscuro */
+:host-context(.dark-mode) .notas-card {
+  background-color: #2a2a2a;
+  box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
+}
+
+:host-context(.dark-mode) .notas-table th {
+  background: #3a3a3a;
+  color: #ffffff;
+  border-color: #555555;
+}
+
+:host-context(.dark-mode) .notas-table td {
+  color: #ffffff;
+  border-color: #555555;
+}
+
+:host-context(.dark-mode) .notas-table input[type="number"] {
+  background-color: #2a2a2a;
+  border-color: #555555;
+  color: #ffffff;
+}
+
+:host-context(.dark-mode) .registrar-button {
+  background: #ffffff;
+  color: #000000;
+}
+
+:host-context(.dark-mode) .registrar-button:hover {
+  background: #cccccc;
+}
+
+
+/* Modificar el estilo del botón de registrar para hacerlo más pequeño */
+.registrar-button {
+  background: #000000;
+  color: #ffffff;
+  border: none;
+  padding: 8px 12px; /* Reducido de 10px 16px */
+  border-radius: 4px; /* Reducido de 6px */
+  font-size: 12px; /* Reducido de 14px */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 16px;
+}
+
+.registrar-button:hover {
+  background: #333333;
+}
+
+/* Estilo para los campos de CC y Estudiante */
+.notas-table td:nth-child(1),
+.notas-table td:nth-child(2) {
+  background-color: #f4f4f5;
+  color: #18181b;
+  font-weight: 500;
+}
+
+/* Quitar el estilo de input para CC y Estudiante */
+.notas-table td:nth-child(1) input,
+.notas-table td:nth-child(2) input {
+  border: none;
+  background: transparent;
+  font-weight: inherit;
+  color: inherit;
+  width: 100%;
+  padding: 0;
+  pointer-events: none;
+}
+
+/* Ajustar el estilo para modo oscuro */
+:host-context(.dark-mode) .notas-table td:nth-child(1),
+:host-context(.dark-mode) .notas-table td:nth-child(2) {  
+  background-color: #3a3a3a;
+  color: #ffffff;
+}
+
+:host-context(.dark-mode) .notas-table td:nth-child(1) input,
+:host-context(.dark-mode) .notas-table td:nth-child(2) input {
+  color: #ffffff;
+}

@@ -69,35 +69,41 @@ export class BienvenidaComponent implements OnInit {
   }
 
   loadEvents(): void {
-    this.sharedUserService.currentUserName.subscribe(userId => {
-      this.eventosService.getEventos(userId).subscribe(
-        (response: any) => {
-          console.log('Respuesta de getEventos:', response);
-          if (response && response.resultadoConsulta && Array.isArray(response.resultadoConsulta)) {
-            const eventos = response.resultadoConsulta;
-            this.recentEvents = eventos.map((evento: any) => ({
-              titulo: evento.titulo || 'Sin título',
-              descripcion: evento.descripcion || 'Sin descripción',
-              estado: evento.estado || 'Sin estado',
-              nombre: evento.nombre || 'Sin tipo',
-              fechaInicio: evento.fechaInicio || '',
-              fechaFin: evento.fechaFin || ''
-            }));
-            this.metricCards[1].value = eventos.length.toString();
-            this.metricCards[1].change = `Próximos eventos`;
-          } else {
-            console.error('La respuesta de getEventos no tiene la estructura esperada:', response);
-            this.recentEvents = [];
-            this.metricCards[1].value = 'N/A';
-            this.metricCards[1].change = 'Datos no disponibles';
+    this.sharedUserService.currentUserData.subscribe(userData => {
+      if (userData && userData.cc) {
+        this.eventosService.getEventos(userData.cc).subscribe(
+          (response: any) => {
+            console.log('Respuesta de getEventos:', response);
+            if (response && response.resultadoConsulta && Array.isArray(response.resultadoConsulta)) {
+              const eventos = response.resultadoConsulta;
+              this.recentEvents = eventos.map((evento: any) => ({
+                titulo: evento.titulo || 'Sin título',
+                descripcion: evento.descripcion || 'Sin descripción',
+                estado: evento.estado || 'Sin estado',
+                nombre: evento.nombre || 'Sin tipo',
+                fechaInicio: evento.fechaInicio || '',
+                fechaFin: evento.fechaFin || ''
+              }));
+              this.metricCards[1].value = eventos.length.toString();
+              this.metricCards[1].change = `Próximos eventos`;
+            } else {
+              console.error('La respuesta de getEventos no tiene la estructura esperada:', response);
+              this.recentEvents = [];
+              this.metricCards[1].value = 'N/A';
+              this.metricCards[1].change = 'Datos no disponibles';
+            }
+          },
+          error => {
+            console.error('Error al cargar los eventos:', error);
+            this.metricCards[1].value = 'Error';
+            this.metricCards[1].change = 'No se pudo cargar la información';
           }
-        },
-        error => {
-          console.error('Error al cargar los eventos:', error);
-          this.metricCards[1].value = 'Error';
-          this.metricCards[1].change = 'No se pudo cargar la información';
-        }
-      );
+        );
+      } else {
+        console.error('No se pudo obtener el CC del usuario');
+        this.metricCards[1].value = 'Error';
+        this.metricCards[1].change = 'No se pudo cargar la información del usuario';
+      }
     });
   }
 }

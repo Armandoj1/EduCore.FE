@@ -1,77 +1,156 @@
 <div class="materia-management" [@fadeInOut]>
-    <div class="header">
-      <h2 class="title" [@slideInFromTop]>Consultar Notas</h2>
-      <p class="subtitle">Seleccione un grado y una materia para consultar las notas</p>
-    </div>
-    
-    <div class="form-container" [@slideInFromLeft]>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Grado</label>
-          <div class="combobox">
-            <input 
-              type="text" 
-              [value]="selectedGrado ? selectedGrado.nombre : ''"
-              (focus)="toggleDropdown('GradoID')"
-              (input)="filterItems('gradoID', $event)"
-              placeholder="Buscar grado..."
-            >
-            <div class="dropdown-list" *ngIf="dropdowns.GradoID">
-              <div class="dropdown-item" *ngFor="let grado of filteredGradosList" (click)="selectItem('gradoID', grado)">
-                {{ grado.nombre }}
-              </div>
+  <div class="header">
+    <h2 class="title" [@slideInFromTop]>Consultar y Registrar Notas</h2>
+    <p class="subtitle">Seleccione un grado y una materia para consultar y registrar las notas</p>
+  </div>
+  
+  <div class="form-container" [@slideInFromLeft]>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Grado</label>
+        <div class="combobox">
+          <input 
+            type="text" 
+            [value]="selectedGrado ? selectedGrado.nombre : ''"
+            (focus)="toggleDropdown('GradoID')"
+            (input)="filterItems('gradoID', $event)"
+            placeholder="Buscar grado..."
+          >
+          <div class="dropdown-list" *ngIf="dropdowns.GradoID">
+            <div class="dropdown-item" *ngFor="let grado of filteredGradosList" (click)="selectItem('gradoID', grado)">
+              {{ grado.nombre }}
             </div>
           </div>
         </div>
-  
-        <div class="form-group">
-          <label>Materia</label>
-          <div class="combobox">
-            <input 
-              type="text" 
-              [value]="selectedMateria ? selectedMateria.nombreMateria : ''"
-              (focus)="toggleDropdown('MateriaID')"
-              (input)="filterItems('materiaID', $event)"
-              placeholder="Buscar materia..."
-            >
-            <div class="dropdown-list" *ngIf="dropdowns.MateriaID">
-              <div class="dropdown-item" *ngFor="let materia of filteredMateriasList" (click)="selectItem('materiaID', materia)">
-                {{ materia.nombreMateria }} ({{ materia.materiaID }})
-              </div>
+      </div>
+
+      <div class="form-group">
+        <label>Materia</label>
+        <div class="combobox">
+          <input 
+            type="text" 
+            [value]="selectedMateria ? selectedMateria.nombreMateria : ''"
+            (focus)="toggleDropdown('MateriaID')"
+            (input)="filterItems('materiaID', $event)"
+            placeholder="Buscar materia..."
+          >
+          <div class="dropdown-list" *ngIf="dropdowns.MateriaID">
+            <div class="dropdown-item" *ngFor="let materia of filteredMateriasList" (click)="selectItem('materiaID', materia)">
+              {{ materia.nombreMateria }} ({{ materia.materiaID }})
             </div>
           </div>
         </div>
-  
-        <button class="consultar-button" (click)="consultarNotas()" [@slideInFromRight]>Consultar Notas</button>
-        <div *ngIf="errorMessage" class="error-message" [@fadeInOut]>
-          {{ errorMessage }}
-        </div>
       </div>
-    </div>
-  
-    <div class="card notas-card" *ngIf="notas.length > 0 && !errorMessage" [@slideInFromBottom]>
-      <h3 class="card-title">Notas Consultadas</h3>
-      <div class="table-container">
-        <table class="notas-table">
-          <thead>
-            <tr>
-              <th>Estudiante</th>
-              <th>1° Nota</th>
-              <th>2° Nota</th>
-              <th>3° Nota</th>
-              <th>4° Nota</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let nota of notas; let i = index" [@fadeIn]="i">
-              <td>{{ nota.nombreEstudiante }}</td>
-              <td>{{ nota.nota1 }}</td>
-              <td>{{ nota.nota2 }}</td>
-              <td>{{ nota.nota3 }}</td>
-              <td>{{ nota.nota4 }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+
+      <button class="consultar-button" (click)="consultarNotas()" [@slideInFromRight]>
+        Consultar Notas
+      </button>
     </div>
   </div>
+
+  <div *ngIf="errorMessage" class="error-message" [@fadeInOut]>
+    {{ errorMessage }}
+  </div>
+
+  <div class="card notas-card" *ngIf="notas.length > 0 && !errorMessage" [@slideInFromBottom]>
+    <h3 class="card-title">Notas Consultadas</h3>
+    <div class="table-container">
+      <table class="notas-table">
+        <thead>
+          <tr>
+            <th>CC</th>
+            <th>Estudiante</th>
+            <th>1° Nota</th>
+            <th>2° Nota</th>
+            <th>3° Nota</th>
+            <th>4° Nota</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let nota of notas; let i = index" [@fadeIn]="i">
+            <td>
+              <input 
+                type="text" 
+                [value]="nota.cc" 
+                readonly 
+                class="readonly-input"
+              >
+            </td>
+            <td>
+              <input 
+                type="text" 
+                [value]="nota.nombreEstudiante" 
+                readonly 
+                class="readonly-input"
+              >
+            </td>
+            <td>
+              <input 
+                type="number" 
+                [(ngModel)]="nota.nota1" 
+                [readonly]="!isNotaEditable(1)"
+                [disabled]="!isNotaEditable(1)"
+                [class.disabled-input]="!isNotaEditable(1)"
+                min="0" 
+                max="5" 
+                step="0.1"
+                class="nota-input"
+              >
+            </td>
+            <td>
+              <input 
+                type="number" 
+                [(ngModel)]="nota.nota2" 
+                [readonly]="!isNotaEditable(2)"
+                [disabled]="!isNotaEditable(2)"
+                [class.disabled-input]="!isNotaEditable(2)"
+                min="0" 
+                max="5" 
+                step="0.1"
+                class="nota-input"
+              >
+            </td>
+            <td>
+              <input 
+                type="number" 
+                [(ngModel)]="nota.nota3" 
+                [readonly]="!isNotaEditable(3)"
+                [disabled]="!isNotaEditable(3)"
+                [class.disabled-input]="!isNotaEditable(3)"
+                min="0" 
+                max="5" 
+                step="0.1"
+                class="nota-input"
+              >
+            </td>
+            <td>
+              <input 
+                type="number" 
+                [(ngModel)]="nota.nota4" 
+                [readonly]="!isNotaEditable(4)"
+                [disabled]="!isNotaEditable(4)"
+                [class.disabled-input]="!isNotaEditable(4)"
+                min="0" 
+                max="5" 
+                step="0.1"
+                class="nota-input"
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="button-container">
+      <button 
+        class="registrar-button" 
+        (click)="registrarNotas()" 
+        [@slideInFromRight]
+        [disabled]="!periodoVigente"
+      >
+        Registrar Notas
+      </button>
+    </div>
+  </div>
+</div>
+
